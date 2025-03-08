@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from '../app/styles/gnb.module.css';
+import styles from '../styles/gnb.module.css';
 
 interface NavItem {
     label: string;

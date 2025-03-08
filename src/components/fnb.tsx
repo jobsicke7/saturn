@@ -1,6 +1,6 @@
 // components/FNB.tsx
 import Link from 'next/link';
-import styles from '../app/styles/FNB.module.css';
+import styles from '../styles/fnb.module.css';
 
 interface FooterSection {
     title: string;
