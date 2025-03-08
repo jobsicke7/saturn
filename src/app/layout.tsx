@@ -26,11 +26,9 @@ export default function RootLayout({
       height: 40
     },
     navItems: [
-      { label: '홈', href: '/' },
       { label: '서비스', href: '/services' },
-      { label: '제품', href: '/products' },
       { label: '블로그', href: '/blog' },
-      { label: '연락처', href: '/contact' },
+      { label: '커뮤니티', href: '/community' },
     ]
   };
 
@@ -41,15 +39,13 @@ export default function RootLayout({
         title: '회사',
         links: [
           { label: '소개', href: '/about' },
-          { label: '팀', href: '/team' },
-          { label: '커리어', href: '/careers' },
+          { label: '팀', href: '/team' }
         ]
       },
       {
         title: '지원',
         links: [
           { label: 'FAQ', href: '/faq' },
-          { label: '헬프 센터', href: '/help' },
           { label: '문의하기', href: '/contact' },
         ]
       },
@@ -57,12 +53,11 @@ export default function RootLayout({
         title: '법적 고지',
         links: [
           { label: '개인정보 처리방침', href: '/privacy' },
-          { label: '이용약관', href: '/terms' },
-          { label: '쿠키 정책', href: '/cookies' },
+          { label: '이용약관', href: '/terms' }
         ]
       },
     ],
-    copyright: '© 2024 회사명. All rights reserved.'
+    copyright: '© 2025 Saturn. All rights reserved.'
   };
 
   return (
