@@ -1,0 +1,149 @@
+/* styles/GNB.module.css */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.transparent {
+    background-color: transparent;
+}
+
+.solid {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+}
+
+.navContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.navLinks {
+    display: none;
+}
+
+.navItem {
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    margin-left: 2rem;
+    text-decoration: none;
+}
+
+.transparentLink {
+    color: white;
+}
+
+.transparentLink:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.solidLink {
+    color: #333;
+}
+
+.solidLink:hover {
+    color: #000;
+}
+
+.mobileMenuButton {
+    padding: 0.5rem;
+    display: block;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* 사이드 네비게이션 스타일 */
+.sideNav {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+}
+
+.sideNavOpen {
+    left: 0;
+}
+
+.sideNavHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.sideNavContent {
+    padding: 1.5rem;
+}
+
+.sideNavItem {
+    display: block;
+    padding: 1rem 0;
+    font-size: 1rem;
+    color: #333;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+}
+
+.sideNavItem:hover {
+    color: #000;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    display: none;
+}
+
+.overlayVisible {
+    display: block;
+}
+
+/* 미디어 쿼리 */
+@media (min-width: 768px) {
+    .navLinks {
+        display: flex;
+    }
+
+    .mobileMenuButton {
+        display: none;
+    }
+}
