@@ -1,74 +1,33 @@
-// app/api/docs/route.ts
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
-// 문서 가져오기
-export async function GET(request: NextRequest) {
-    const { searchParams } = new URL(request.url);
-    const type = searchParams.get('type');
+// API 라우트를 항상 동적으로 실행
+export const dynamic = 'force-dynamic';
 
-    if (!type || (type !== 'privacy' && type !== 'terms')) {
-        return NextResponse.json(
-            { error: 'Invalid document type' },
-            { status: 400 }
-        );
-    }
-
+export async function GET(
+    request: Request,
+    { params }: { params: { type: string } }
+) {
     try {
         const client = await clientPromise;
         const db = client.db();
 
-        const document = await db.collection('documents').findOne({ type });
+        const doc = await db.collection('docs').findOne({ type: params.type });
 
-        if (!document) {
-            return NextResponse.json({ content: '' });
+        if (!doc) {
+            return NextResponse.json({ error: 'Document not found' }, { status: 404 });
         }
 
-        return NextResponse.json({ content: document.content });
+        // 캐시 헤더 설정
+        return NextResponse.json(doc, {
+            headers: {
+                'Cache-Control': 'no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+            }
+        });
     } catch (error) {
-        console.error('Database error:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch document' },
-            { status: 500 }
-        );
-    }
-}
-
-// 문서 저장하기
-export async function POST(request: NextRequest) {
-    try {
-        const { type, content, password } = await request.json();
-
-        // 비밀번호 검증
-        if (password !== 'jslove0619qq@@') {
-            return NextResponse.json(
-                { error: 'Invalid password' },
-                { status: 401 }
-            );
-        }
-
-        if (!type || (type !== 'privacy' && type !== 'terms')) {
-            return NextResponse.json(
-                { error: 'Invalid document type' },
-                { status: 400 }
-            );
-        }
-
-        const client = await clientPromise;
-        const db = client.db();
-
-        await db.collection('documents').updateOne(
-            { type },
-            { $set: { content, updatedAt: new Date() } },
-            { upsert: true }
-        );
-
-        return NextResponse.json({ success: true });
-    } catch (error) {
-        console.error('Database error:', error);
-        return NextResponse.json(
-            { error: 'Failed to save document' },
-            { status: 500 }
-        );
+        console.error('Failed to fetch document:', error);
+        return NextResponse.json({ error: 'Failed to fetch document' }, { status: 500 });
     }
 }
