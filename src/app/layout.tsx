@@ -20,7 +20,7 @@ export default function RootLayout({
   // GNB 구성 정보
   const gnbProps = {
     logo: {
-      src: '/logo.png',
+      src: '/icon.svg',
       alt: 'logo',
       width: 120,
       height: 40
