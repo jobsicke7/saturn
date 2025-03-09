@@ -4,6 +4,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import GNB from '../components/gnb';
 import FNB from '../components/fnb';
+import styles from '../styles/Layout.module.css';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -63,9 +65,9 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <div className="flex flex-col min-h-screen">
+        <div className={styles.pageContainer}>
           <GNB {...gnbProps} />
-          <main className="flex-grow pt-16">
+          <main className={styles.mainContent}>
             {children}
           </main>
           <FNB {...fnbProps} />

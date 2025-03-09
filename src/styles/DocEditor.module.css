@@ -4,6 +4,7 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem 1rem;
+    margin-top: 70px;
 }
 
 .toolbar {
@@ -40,5 +41,21 @@
     border: 1px solid #eaeaea;
     border-radius: 4px;
     padding: 1rem;
-    background-color: #fff;
+    background-color: #d8d8d8;
+}
+
+.editorContainer :global(.ce-block__content) {
+    max-width: 95%;
+}
+
+.editorContainer :global(.ce-toolbar__content) {
+    max-width: 95%;
+}
+
+/* components/styles/DocEditor.module.css */
+.loading {
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+    font-style: italic;
 }
