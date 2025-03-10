@@ -5,15 +5,15 @@ import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
 
-// GET 핸들러 수정
+// GET 핸들러 수정 - 정확한 Next.js 15 타입 사용
 export async function GET(
-  request: Request,
-  context: { params: { id: string } }
-) {
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
   try {
     await connectDB();
     
-    const post = await Post.findById(context.params.id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -32,11 +32,11 @@ export async function GET(
   }
 }
 
-// PUT 핸들러 수정
+// PUT 핸들러 수정 - 정확한 Next.js 15 타입 사용
 export async function PUT(
-  request: Request,
-  context: { params: { id: string } }
-) {
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     
@@ -49,7 +49,7 @@ export async function PUT(
     
     await connectDB();
     
-    const post = await Post.findById(context.params.id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -89,11 +89,11 @@ export async function PUT(
   }
 }
 
-// DELETE 핸들러 수정
+// DELETE 핸들러 수정 - 정확한 Next.js 15 타입 사용
 export async function DELETE(
-  request: Request,
-  context: { params: { id: string } }
-) {
+  request: NextRequest,
+  { params }: { params: { id: string } }
+): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
     
@@ -106,7 +106,7 @@ export async function DELETE(
     
     await connectDB();
     
-    const post = await Post.findById(context.params.id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -124,7 +124,7 @@ export async function DELETE(
       );
     }
     
-    await Post.findByIdAndDelete(context.params.id);
+    await Post.findByIdAndDelete(params.id);
     
     return NextResponse.json(
       { message: 'Post deleted successfully' },
