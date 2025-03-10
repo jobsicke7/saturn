@@ -707,13 +707,13 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
                       <table className={styles.table}>{children}</table>
                     </div>
                   ),
-                  ul: ({ node, ordered, ...props }) => (
+                  ul: ({ children, ...props }) => (
                     <ul className={styles.ul} {...props} />
                   ),
-                  ol: ({ node, ordered, ...props }) => (
+                  ol: ({ children, ...props }) => (
                     <ol className={styles.ol} {...props} />
-                  ),                  li: ({ node, ordered, ...props }) => {
-                    // 체크박스 확인
+                  ),
+                  li: ({ children, ...props }) => {
                     const childrenStr = String(props.children);
                     const checkboxMatch = childrenStr.match(/^\[([ x])\] (.*)/);
                     
