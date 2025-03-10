@@ -3,21 +3,15 @@ import { getServerSession } from 'next-auth/next';
 import Post from '@/models/Post';
 import connectDB from '@/lib/mongodb';
 
-// The context type needs to be adjusted
-interface Params {
-    params: {
-        id: string;
-    }
-}
-
 export async function GET(
-    req: NextRequest,
-    context: Params
+    request: NextRequest,
+    context: { params: { id: string } }
 ) {
     try {
         await connectDB();
-
-        const { id } = context.params;
+        
+        // params를 직접 사용하지 않고 context에서 안전하게 추출
+        const { id } = await context.params;
         const post = await Post.findById(id);
 
         if (!post) {
@@ -38,15 +32,14 @@ export async function GET(
 }
 
 export async function PUT(
-    req: NextRequest,
-    context: Params
+    request: NextRequest,
+    context: { params: { id: string } }
 ) {
     try {
         const session = await getServerSession();
-
         await connectDB();
         
-        const { id } = context.params;
+        const { id } = await context.params;
         const post = await Post.findById(id);
 
         if (!post) {
@@ -64,7 +57,7 @@ export async function PUT(
             );
         }
 
-        const { title, content, mainImage } = await req.json();
+        const { title, content, mainImage } = await request.json();
 
         post.title = title;
         post.content = content;
@@ -87,15 +80,14 @@ export async function PUT(
 }
 
 export async function DELETE(
-    req: NextRequest,
-    context: Params
+    request: NextRequest,
+    context: { params: { id: string } }
 ) {
     try {
         const session = await getServerSession();
-
         await connectDB();
         
-        const { id } = context.params;
+        const { id } = await context.params;
         const post = await Post.findById(id);
 
         if (!post) {
