@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import style from '@/styles/main.module.css';
@@ -72,7 +72,7 @@ export default function ResetPasswordPage() {
     }
 
     return (
-        <Suspense fallback={<div></div>}>
+        <Suspense fallback={<div>..</div>}>
         <div className={style.container}>
             <div className={styles.resetPasswordBox}>
                 <h1 className={styles.title}>비밀번호 재설정</h1>
