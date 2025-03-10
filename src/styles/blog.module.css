@@ -938,3 +938,563 @@
     color: #666;
     font-size: 1.2rem;
   }
+
+
+/* 툴바 스타일 */
+.toolbar {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    flex-wrap: wrap;
+    background-color: #f8f8f8;
+  }
+  
+  .toolbarButton {
+    padding: 6px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  .toolbarButton:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* 콜아웃 드롭다운 */
+  .calloutDropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .calloutDropdownContent {
+    display: none;
+    position: absolute;
+    min-width: 120px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+  }
+  
+  .calloutDropdown:hover .calloutDropdownContent {
+    display: block;
+  }
+  
+  .calloutOption {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .calloutOption:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* 반응형 이미지 스타일 */
+  .responsiveImageContainer {
+    max-width: 100%;
+    margin: 15px 0;
+  }
+  
+  .responsiveImage {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* 콜아웃 스타일 */
+  .blockquote {
+    border-left: 4px solid #ddd;
+    margin: 1.5em 0;
+    padding: 0.5em 1.5em;
+    background-color: #f9f9f9;
+  }
+  
+  .calloutInfo {
+    border-left-color: #3498db;
+    background-color: #e8f4fc;
+  }
+  
+  .calloutWarning {
+    border-left-color: #f39c12;
+    background-color: #fef5e7;
+  }
+  
+  .calloutError {
+    border-left-color: #e74c3c;
+    background-color: #fdedeb;
+  }
+  
+  .calloutSuccess {
+    border-left-color: #2ecc71;
+    background-color: #e9f7ef;
+  }
+  
+
+  /* 기존 스타일에 다음 내용 추가 */
+
+.markdownEditor {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .editorHeader {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .editorTab {
+    padding: 12px 16px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .activeTab {
+    border-bottom: 2px solid #2563eb;
+    color: #2563eb;
+    background-color: #f8fafc;
+  }
+  
+  .editorToolbar {
+    display: flex;
+    gap: 4px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    background-color: #f8fafc;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  
+  .toolbarGroup {
+    display: flex;
+    gap: 4px;
+    position: relative;
+  }
+  
+  .toolbarGroup:not(:last-child)::after {
+    content: '';
+    display: block;
+    width: 1px;
+    background-color: #ddd;
+    margin: 0 8px;
+  }
+  
+  .toolbarButton {
+    padding: 6px 10px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+  }
+  
+  .toolbarButton:hover {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+  }
+  
+  .menuDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    padding: 4px 0;
+    z-index: 100;
+    margin-top: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .menuItem {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .menuItem:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .editorContent {
+    flex: 1;
+    min-height: 300px;
+  }
+  
+  .textarea {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    padding: 16px;
+    border: none;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+    background-color: #fff;
+    color: #1f2937;
+  }
+  
+  .textarea:focus {
+    outline: none;
+  }
+  
+  .preview {
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #1f2937;
+    min-height: 300px;
+    overflow-wrap: break-word;
+  }
+  
+  .editorFooter {
+    padding: 8px 16px;
+    border-top: 1px solid #ddd;
+    background-color: #f8fafc;
+  }
+  
+  .markdownHint {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+  }
+  
+  .placeholder {
+    color: #9ca3af;
+    font-style: italic;
+  }
+  
+  /* 확장된 스타일 */
+  .headingIcon {
+    font-weight: bold;
+  }
+  
+  .heading1 {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .heading2 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .heading3 {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .inlineCode {
+    background-color: #f1f5f9;
+    border-radius: 3px;
+    padding: 0.2em 0.4em;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 85%;
+  }
+  
+  .hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 1.5em 0;
+  }
+  
+  .tableContainer {
+    overflow-x: auto;
+    margin: 1em 0;
+  }
+  
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  
+  .table th, 
+  .table td {
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+  }
+  
+  .h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  
+  .h1 {
+    font-size: 2em;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.3em;
+  }
+  
+  .h2 {
+    font-size: 1.5em;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.3em;
+  }
+  
+  .h3 {
+    font-size: 1.25em;
+  }
+  
+  .h4 {
+    font-size: 1em;
+  }
+  
+  .h5 {
+    font-size: 0.875em;
+  }
+  
+  .h6 {
+    font-size: 0.85em;
+    color: #6b7280;
+  }
+  
+  .ul, .ol {
+    padding-left: 2em;
+    margin: 1em 0;
+  }
+  
+  .ul {
+    list-style-type: disc;
+  }
+  
+  .ol {
+    list-style-type: decimal;
+  }
+  
+  .li {
+    margin: 0.5em 0;
+  }
+  
+  .checklistItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0.3em 0;
+    list-style-type: none;
+    margin-left: -2em;
+  }
+  
+  .checkbox {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+  }
+  
+  .link {
+    color: #2563eb;
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  .blockquote {
+    border-left: 4px solid #ddd;
+    margin: 1.5em 0;
+    padding: 0.5em 1.5em;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  
+  .calloutInfo {
+    border-left-color: #3498db;
+    background-color: #e8f4fc;
+  }
+  
+  .calloutWarning {
+    border-left-color: #f39c12;
+    background-color: #fef5e7;
+  }
+  
+  .calloutError {
+    border-left-color: #e74c3c;
+    background-color: #fdedeb;
+  }
+  
+  .calloutSuccess {
+    border-left-color: #2ecc71;
+    background-color: #e9f7ef;
+  }
+  
+  .responsiveImageContainer {
+    max-width: 100%;
+    margin: 15px 0;
+  }
+  
+  .responsiveImage {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  /* 다크 모드 지원 */
+  @media (prefers-color-scheme: dark) {
+    .markdownEditor {
+      background-color: #1f2937;
+      border-color: #374151;
+    }
+    
+    .editorHeader {
+      border-color: #374151;
+    }
+    
+    .editorTab {
+      color: #e5e7eb;
+    }
+    
+    .activeTab {
+      border-color: #3b82f6;
+      color: #3b82f6;
+      background-color: #111827;
+    }
+    
+    .editorToolbar {
+      background-color: #111827;
+      border-color: #374151;
+    }
+    
+    .toolbarGroup:not(:last-child)::after {
+      background-color: #374151;
+    }
+    
+    .toolbarButton {
+      color: #d1d5db;
+    }
+    
+    .toolbarButton:hover {
+      background-color: #374151;
+      border-color: #4b5563;
+    }
+    
+    .menuDropdown {
+      background-color: #1f2937;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .menuItem {
+      color: #e5e7eb;
+    }
+    
+    .menuItem:hover {
+      background-color: #374151;
+    }
+    
+    .textarea {
+      background-color: #1f2937;
+      color: #f3f4f6;
+    }
+    
+    .preview {
+      color: #f3f4f6;
+    }
+    
+    .editorFooter {
+      background-color: #111827;
+      border-color: #374151;
+    }
+    
+    .markdownHint {
+      color: #9ca3af;
+    }
+    
+    .placeholder {
+      color: #6b7280;
+    }
+    
+    .inlineCode {
+      background-color: #374151;
+    }
+    
+    .hr {
+      border-color: #4b5563;
+    }
+    
+    .table th, 
+    .table td {
+      border-color: #4b5563;
+    }
+    
+    .table th {
+      background-color: #1f2937;
+    }
+    
+    .h1, .h2 {
+      border-color: #4b5563;
+    }
+    
+    .h6 {
+      color: #9ca3af;
+    }
+    
+    .link {
+      color: #3b82f6;
+    }
+    
+    .blockquote {
+      background-color: #111827;
+      border-left-color: #4b5563;
+    }
+    
+    .calloutInfo {
+      background-color: rgba(52, 152, 219, 0.15);
+    }
+    
+    .calloutWarning {
+      background-color: rgba(243, 156, 18, 0.15);
+    }
+    
+    .calloutError {
+      background-color: rgba(231, 76, 60, 0.15);
+    }
+    
+    .calloutSuccess {
+      background-color: rgba(46, 204, 113, 0.15);
+    }
+  }
+  
