@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import style from '@/styles/main.module.css';
 import styles from './reset-password.module.css';
 
@@ -14,16 +13,10 @@ export default function ResetPasswordPage() {
     const [userInfo, setUserInfo] = useState({ email: '', name: '' });
     const [newPassword, setNewPassword] = useState('');
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const validateToken = async () => {
             try {
-                if (!token) {
-                    router.push('/login');
-                    return;
-                }
-
                 const response = await fetch('/api/auth/validate-reset-token', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -31,20 +24,20 @@ export default function ResetPasswordPage() {
                 });
                 const data = await response.json();
 
-                if (!response.ok) {
+                if (response.ok) {
                     router.push('/login');
                     return;
                 }
 
                 setUserInfo({ email: data.email, name: data.name });
             } catch (error) {
-                router.push('/login');
-            } finally {
-                setIsLoading(false);
+                // router.push('/login');
             }
         };
 
-        validateToken();
+        if (token) {
+            validateToken();
+        }
     }, [token, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -66,13 +59,7 @@ export default function ResetPasswordPage() {
         }
     };
 
-    // 로딩 상태 추가
-    if (isLoading) {
-        return <div>로딩 중...</div>;
-    }
-
     return (
-        <Suspense fallback={<div>..</div>}>
         <div className={style.container}>
             <div className={styles.resetPasswordBox}>
                 <h1 className={styles.title}>비밀번호 재설정</h1>
@@ -101,7 +88,5 @@ export default function ResetPasswordPage() {
                 </form>
             </div>
         </div>
-        </Suspense>
     );
-    
 }
