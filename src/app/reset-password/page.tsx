@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import style from '@/styles/main.module.css';
 import styles from './reset-password.module.css';
 
@@ -13,10 +14,16 @@ export default function ResetPasswordPage() {
     const [userInfo, setUserInfo] = useState({ email: '', name: '' });
     const [newPassword, setNewPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const validateToken = async () => {
             try {
+                if (!token) {
+                    router.push('/login');
+                    return;
+                }
+
                 const response = await fetch('/api/auth/validate-reset-token', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -24,20 +31,20 @@ export default function ResetPasswordPage() {
                 });
                 const data = await response.json();
 
-                if (response.ok) {
+                if (!response.ok) {
                     router.push('/login');
                     return;
                 }
 
                 setUserInfo({ email: data.email, name: data.name });
             } catch (error) {
-                // router.push('/login');
+                router.push('/login');
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        if (token) {
-            validateToken();
-        }
+        validateToken();
     }, [token, router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -58,6 +65,11 @@ export default function ResetPasswordPage() {
             setError('오류가 발생했습니다.');
         }
     };
+
+    // 로딩 상태 추가
+    if (isLoading) {
+        return <div>로딩 중...</div>;
+    }
 
     return (
         <div className={style.container}>
