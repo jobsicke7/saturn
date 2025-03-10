@@ -6,7 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import styles from '@/styles/blog.module.css';
 import { uploadImage, deleteImage } from '@/utils/imageUploader';
-import { CodeProps } from 'react-markdown/lib/ast-to-react';
+
 
 interface MarkdownEditorProps {
   value: string;
