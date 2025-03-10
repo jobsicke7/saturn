@@ -5,7 +5,7 @@ import './globals.css';
 import GNB from '../components/gnb';
 import FNB from '../components/fnb';
 import styles from '../styles/Layout.module.css';
-
+import { AuthProvider } from '../components/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -64,6 +64,7 @@ export default function RootLayout({
 
   return (
     <html lang="ko">
+      <AuthProvider>
       <body className={inter.className}>
         <div className={styles.pageContainer}>
           <GNB {...gnbProps} />
@@ -73,6 +74,7 @@ export default function RootLayout({
           <FNB {...fnbProps} />
         </div>
       </body>
+      </AuthProvider>
     </html>
   );
 }

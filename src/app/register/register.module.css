@@ -1,0 +1,83 @@
+.registerBox {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inputGroup label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.inputGroup input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.inputGroup input:focus {
+    outline: none;
+    border-color: #0070f3;
+}
+
+.error {
+    color: #e00;
+    background: #fff0f0;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.registerButton {
+    background: #0070f3;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.registerButton:hover {
+    background: #0060df;
+}
+
+.loginLink {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.loginLink a {
+    color: #0070f3;
+    text-decoration: none;
+}
+
+.loginLink a:hover {
+    text-decoration: underline;
+}
