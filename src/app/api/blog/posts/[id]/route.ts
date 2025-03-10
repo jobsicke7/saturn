@@ -17,9 +17,8 @@ export async function GET(
     try {
         await connectDB();
         
-        // params를 await로 처리
-        const paramData = await params;
-        const id = paramData.id;
+        // 비동기 context.params 대신 일반 params 사용
+        const id = params.id;
         const post = await Post.findById(id);
 
         if (!post) {
@@ -47,9 +46,7 @@ export async function PUT(
         const session = await getServerSession();
         await connectDB();
         
-        // params를 await로 처리
-        const paramData = await params;
-        const id = paramData.id;
+        const id = params.id;
         const post = await Post.findById(id);
 
         if (!post) {
@@ -97,9 +94,7 @@ export async function DELETE(
         const session = await getServerSession();
         await connectDB();
         
-        // params를 await로 처리
-        const paramData = await params;
-        const id = paramData.id;
+        const id = params.id;
         const post = await Post.findById(id);
 
         if (!post) {
