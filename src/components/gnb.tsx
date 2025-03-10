@@ -4,8 +4,11 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from '../styles/gnb.module.css';
+import { useSession, signIn, signOut } from "next-auth/react";
 
+// 인터페이스 정의
 interface NavItem {
     label: string;
     href: string;
@@ -24,6 +27,16 @@ interface GNBProps {
 export default function GNB({ logo, navItems }: GNBProps) {
     const [isTransparent, setIsTransparent] = useState(true);
     const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+    const router = useRouter();
+    const { data: session, status } = useSession();
+
+    const handleAuth = () => {
+        if (session) {
+            signOut({ redirect: false });
+        } else {
+            router.push("/login");
+        }
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -38,7 +51,6 @@ export default function GNB({ logo, navItems }: GNBProps) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // 사이드 네비게이션이 열렸을 때 스크롤 방지
     useEffect(() => {
         if (isSideNavOpen) {
             document.body.style.overflow = 'hidden';
@@ -54,6 +66,10 @@ export default function GNB({ logo, navItems }: GNBProps) {
     const toggleSideNav = () => {
         setIsSideNavOpen(!isSideNavOpen);
     };
+
+    if (status === 'loading') {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
@@ -75,14 +91,37 @@ export default function GNB({ logo, navItems }: GNBProps) {
                                 <Link
                                     key={index}
                                     href={item.href}
-                                    className={`${styles.navItem} ${isTransparent ? styles.transparentLink : styles.solidLink
-                                        }`}
+                                    className={`${styles.navItem} ${isTransparent ? styles.transparentLink : styles.solidLink}`}
                                 >
                                     {item.label}
                                 </Link>
                             ))}
+                            
+                            <div className={styles.authSection}>
+                                {session ? (
+                                    <div className={styles.userProfile}>
+                                        <span className={styles.userName}>
+                                            {session.user?.name || '사용자'}
+                                        </span>
+                                        <button 
+                                            className={`${styles.loginButton} ${styles.logoutButton}`} 
+                                            onClick={handleAuth}
+                                        >
+                                            로그아웃
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button 
+                                        className={styles.loginButton} 
+                                        onClick={handleAuth}
+                                    >
+                                        로그인
+                                    </button>
+                                )}
+                            </div>
                         </div>
 
+                        {/* 모바일 메뉴 버튼 */}
                         <button
                             className={styles.mobileMenuButton}
                             onClick={toggleSideNav}
@@ -121,7 +160,7 @@ export default function GNB({ logo, navItems }: GNBProps) {
                         <Image
                             src={logo.src}
                             alt={logo.alt}
-                            width={logo.width * 0.8} // 조금 더 작게 표시
+                            width={logo.width * 0.8}
                             height={logo.height * 0.8}
                             priority
                         />
@@ -145,6 +184,32 @@ export default function GNB({ logo, navItems }: GNBProps) {
                             {item.label}
                         </Link>
                     ))}
+                    
+                    {/* 모바일 사이드 네비게이션의 로그인/로그아웃 버튼 */}
+                    <div className={styles.mobileSideAuthSection}>
+                        {session ? (
+                            <div className={styles.mobileUserProfile}>
+                                <div className={styles.mobileUserInfo}>
+                                    <span className={styles.mobileUserName}>
+                                        {session.user?.name || '사용자'}
+                                    </span>
+                                    <button 
+                                        className={`${styles.loginButton} ${styles.logoutButton}`} 
+                                        onClick={handleAuth}
+                                    >
+                                        로그아웃
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <button 
+                                className={styles.loginButton} 
+                                onClick={handleAuth}
+                            >
+                                로그인
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
