@@ -67,10 +67,6 @@ export default function GNB({ logo, navItems }: GNBProps) {
         setIsSideNavOpen(!isSideNavOpen);
     };
 
-    if (status === 'loading') {
-        return <div>Loading...</div>;
-    }
-
     return (
         <>
             <nav className={`${styles.navbar} ${isTransparent ? styles.transparent : styles.solid}`}>
