@@ -3,20 +3,14 @@ import { getServerSession } from 'next-auth/next';
 import Post from '@/models/Post';
 import connectDB from '@/lib/mongodb';
 
-// Next.js 15 호환 타입 정의
-export interface PostParams {
-  id: string;
-}
-
 export async function GET(
   request: NextRequest,
-  context: { params: PostParams }
+  { params }: { params: { id: string } }
 ) {
   try {
     await connectDB();
     
-    // 올바른 방식으로 id 추출
-    const id = context.params.id;
+    const id = params.id;
     const post = await Post.findById(id);
 
     if (!post) {
@@ -38,13 +32,13 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: PostParams }
+  { params }: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession();
     await connectDB();
     
-    const id = context.params.id;
+    const id = params.id;
     const post = await Post.findById(id);
 
     if (!post) {
@@ -86,13 +80,13 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: PostParams }
+  { params }: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession();
     await connectDB();
     
-    const id = context.params.id;
+    const id = params.id;
     const post = await Post.findById(id);
 
     if (!post) {
