@@ -1,4 +1,3 @@
-// src/app/api/auth/[...nextauth]/route.ts
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import NaverProvider from 'next-auth/providers/naver';
@@ -9,8 +8,8 @@ import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 
-// authOptions를 export로 변경하여 다른 파일에서 사용할 수 있게 합니다
-export const authOptions: NextAuthOptions = {
+// NextAuth 설정 옵션
+const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     NaverProvider({
@@ -41,15 +40,12 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Invalid password');
         }
 
-        // MongoDB의 _id를 문자열로 변환
         const userId = user._id.toString();
 
-        // 세션에 저장될 사용자 정보 반환
         return {
           id: userId,
           email: user.email,
           name: user.name,
-          // 추가하고 싶은 다른 사용자 정보
         };
       }
     }),
@@ -60,7 +56,6 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
-        // 추가하고 싶은 다른 사용자 정보
       }
       return token;
     },
@@ -69,7 +64,6 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
-        // 추가하고 싶은 다른 사용자 정보
       }
       return session;
     },
@@ -83,6 +77,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-// NextAuth 핸들러를 생성하고 이를 내보냅니다
+// NextAuth 핸들러 생성 및 내보내기
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };

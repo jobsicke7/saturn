@@ -153,6 +153,7 @@
   
   /* Post Detail Styles */
   .postDetailContainer {
+    min-height: 100vh;
     max-width: 900px;
     margin: 70px 0 auto;
     padding: 20px;
