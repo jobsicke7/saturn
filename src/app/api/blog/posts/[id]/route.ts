@@ -1,17 +1,17 @@
+// app/api/blog/posts/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
-import { isAdmin } from '@/lib/auth';
+import connectDB from '@/lib/mongodb';
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get('id');
-  
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     await connectDB();
     
-    const post = await Post.findById(id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -30,23 +30,16 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function PUT(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get('id');
-
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const session = await getServerSession();
-
-    if (!session || !session.user?.email) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
     
     await connectDB();
     
-    const post = await Post.findById(id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -55,8 +48,8 @@ export async function PUT(req: NextRequest) {
       );
     }
     
-    const adminStatus = await isAdmin(session.user.email);
-    if (session.user.email !== post.author.email && !adminStatus) {
+    // Check if user is authorized to edit
+    if (session?.user?.email !== post.author.email) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -85,23 +78,16 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get('id');
-
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
     const session = await getServerSession();
     
-    if (!session || !session.user?.email) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-    
     await connectDB();
     
-    const post = await Post.findById(id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -110,15 +96,15 @@ export async function DELETE(req: NextRequest) {
       );
     }
     
-    const adminStatus = await isAdmin(session.user.email);
-    if (session.user.email !== post.author.email && !adminStatus) {
+    // Check if user is authorized to delete
+    if (session?.user?.email !== post.author.email) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
     
-    await Post.findByIdAndDelete(id);
+    await Post.findByIdAndDelete(params.id);
     
     return NextResponse.json(
       { message: 'Post deleted successfully' },
