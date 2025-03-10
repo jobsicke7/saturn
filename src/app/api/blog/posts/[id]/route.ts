@@ -3,9 +3,12 @@ import { getServerSession } from 'next-auth/next';
 import Post from '@/models/Post';
 import connectDB from '@/lib/mongodb';
 
+// 라우트 파라미터 타입
+type Params = { id: string };
+
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Params }
 ) {
   try {
     await connectDB();
@@ -32,7 +35,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Params }
 ) {
   try {
     const session = await getServerSession();
@@ -80,7 +83,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Params }
 ) {
   try {
     const session = await getServerSession();
