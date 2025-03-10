@@ -1,24 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
 
-// Next.js 15의 라우트 핸들러 타입 정의
-interface Params {
-  id: string;
-}
-
 // GET 핸들러
 export async function GET(
-  request: NextRequest,
-  context: { params: Params }
+  request: Request,
+  { params }: { params: { id: string } }
 ): Promise<Response> {
   try {
     await connectDB();
     
-    const post = await Post.findById(context.params.id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return Response.json(
@@ -39,8 +34,8 @@ export async function GET(
 
 // PUT 핸들러
 export async function PUT(
-  request: NextRequest,
-  context: { params: Params }
+  request: Request,
+  { params }: { params: { id: string } }
 ): Promise<Response> {
   try {
     const session = await getServerSession(authOptions);
@@ -54,7 +49,7 @@ export async function PUT(
     
     await connectDB();
     
-    const post = await Post.findById(context.params.id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return Response.json(
@@ -95,8 +90,8 @@ export async function PUT(
 
 // DELETE 핸들러
 export async function DELETE(
-  request: NextRequest,
-  context: { params: Params }
+  request: Request,
+  { params }: { params: { id: string } }
 ): Promise<Response> {
   try {
     const session = await getServerSession(authOptions);
@@ -110,7 +105,7 @@ export async function DELETE(
     
     await connectDB();
     
-    const post = await Post.findById(context.params.id);
+    const post = await Post.findById(params.id);
     
     if (!post) {
       return Response.json(
@@ -128,7 +123,7 @@ export async function DELETE(
       );
     }
     
-    await Post.findByIdAndDelete(context.params.id);
+    await Post.findByIdAndDelete(params.id);
     
     return Response.json(
       { message: 'Post deleted successfully' }
