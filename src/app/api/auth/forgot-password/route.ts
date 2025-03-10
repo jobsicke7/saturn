@@ -6,9 +6,12 @@ import crypto from 'crypto';
 export async function POST(req: Request) {
     try {
         const { email } = await req.json();
-        const client = await clientPromise;
-        const db = client.db();
+        
+        // MongoDB 클라이언트를 올바르게 사용
+        const mongoClient = await clientPromise;
+        const db = mongoClient.db();
 
+        // 나머지 코드는 동일
         const user = await db.collection('users').findOne({ email });
         if (!user) {
             return NextResponse.json(

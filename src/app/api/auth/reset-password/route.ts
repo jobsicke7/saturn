@@ -1,13 +1,13 @@
 // api/auth/reset-password/route.ts
 import { NextResponse } from 'next/server';
-import clientPromise from '@/lib/mongodb';
+import { clientPromise } from '@/lib/mongodb'; // named import 사용
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
     try {
         const { token, newPassword } = await req.json();
-        const client = await clientPromise;
-        const db = client.db();
+        const mongoClient = await clientPromise; // 변수명을 명확하게
+        const db = mongoClient.db();
 
         const user = await db.collection('users').findOne({
             resetToken: token,
@@ -33,6 +33,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ message: '비밀번호가 성공적으로 변경되었습니다.' });
     } catch (error) {
+        console.error('Error in reset-password:', error);
         return NextResponse.json(
             { error: '서버 오류가 발생했습니다.' },
             { status: 500 }
