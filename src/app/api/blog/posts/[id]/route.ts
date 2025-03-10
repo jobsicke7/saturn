@@ -3,15 +3,23 @@ import { getServerSession } from 'next-auth/next';
 import Post from '@/models/Post';
 import connectDB from '@/lib/mongodb';
 
+// Next.js 15 문법에 맞게 수정
+type RouteParams = {
+  params: {
+    id: string;
+  };
+};
+
 export async function GET(
     request: NextRequest,
-    context: { params: { id: string } }
+    { params }: RouteParams
 ) {
     try {
         await connectDB();
         
-        // params를 직접 사용하지 않고 context에서 안전하게 추출
-        const { id } = await context.params;
+        // params를 await로 처리
+        const paramData = await params;
+        const id = paramData.id;
         const post = await Post.findById(id);
 
         if (!post) {
@@ -33,13 +41,15 @@ export async function GET(
 
 export async function PUT(
     request: NextRequest,
-    context: { params: { id: string } }
+    { params }: RouteParams
 ) {
     try {
         const session = await getServerSession();
         await connectDB();
         
-        const { id } = await context.params;
+        // params를 await로 처리
+        const paramData = await params;
+        const id = paramData.id;
         const post = await Post.findById(id);
 
         if (!post) {
@@ -81,13 +91,15 @@ export async function PUT(
 
 export async function DELETE(
     request: NextRequest,
-    context: { params: { id: string } }
+    { params }: RouteParams
 ) {
     try {
         const session = await getServerSession();
         await connectDB();
         
-        const { id } = await context.params;
+        // params를 await로 처리
+        const paramData = await params;
+        const id = paramData.id;
         const post = await Post.findById(id);
 
         if (!post) {
