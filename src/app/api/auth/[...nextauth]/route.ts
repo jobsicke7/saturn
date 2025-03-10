@@ -1,88 +1,87 @@
-// src/app/api/auth/[...nextauth]/route.ts
-import NextAuth from 'next-auth';
-import type { NextAuthOptions } from 'next-auth';
-import NaverProvider from 'next-auth/providers/naver';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
-import { clientPromise } from '@/lib/mongodb';
-import bcrypt from 'bcryptjs';
-import connectDB from '@/lib/mongodb';
-import User from '@/models/User';
+import { NextRequest, NextResponse } from 'next/server';
+import { connectToDatabase } from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
 
-// authOptions는 내보내지 않고 내부에서만 사용합니다
-const authOptions: NextAuthOptions = {
-  adapter: MongoDBAdapter(clientPromise),
-  providers: [
-    NaverProvider({
-      clientId: process.env.NAVER_CLIENT_ID!,
-      clientSecret: process.env.NAVER_CLIENT_SECRET!,
-    }),
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
-        }
-
-        await connectDB();
-        const user = await User.findOne({ email: credentials.email });
-
-        if (!user || !user.password) {
-          throw new Error('User not found');
-        }
-
-        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
-
-        if (!isPasswordValid) {
-          throw new Error('Invalid password');
-        }
-
-        // MongoDB의 _id를 문자열로 변환
-        const userId = user._id.toString();
-
-        // 세션에 저장될 사용자 정보 반환
-        return {
-          id: userId,
-          email: user.email,
-          name: user.name,
-          // 추가하고 싶은 다른 사용자 정보
-        };
-      }
-    }),
-  ],
-  callbacks: {
-    jwt: async ({ token, user }) => {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-        // 추가하고 싶은 다른 사용자 정보
-      }
-      return token;
-    },
-    session: async ({ session, token }) => {
-      if (session?.user) {
-        session.user.id = token.id as string;
-        session.user.email = token.email as string;
-        session.user.name = token.name as string;
-        // 추가하고 싶은 다른 사용자 정보
-      }
-      return session;
-    },
-  },
-  pages: {
-    signIn: '/login',
-    newUser: '/register',
-  },
-  session: {
-    strategy: 'jwt',
-  },
+type Params = {
+  params: {
+    id: string;
+  };
 };
 
-// NextAuth 핸들러를 생성하고 이를 내보냅니다
-const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+// GET 요청 처리 핸들러
+export async function GET(request: NextRequest, { params }: Params) {
+  try {
+    const { db } = await connectToDatabase();
+    const id = params.id;
+
+    // ObjectId 형식이 아닌 경우 404 반환
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 404 });
+    }
+
+    const post = await db.collection('posts').findOne({ _id: new ObjectId(id) });
+
+    if (!post) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ post }, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+// PUT 요청 처리 핸들러
+export async function PUT(request: NextRequest, { params }: Params) {
+  try {
+    const { db } = await connectToDatabase();
+    const id = params.id;
+    const data = await request.json();
+
+    // ObjectId 형식이 아닌 경우 400 반환
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 });
+    }
+
+    const result = await db.collection('posts').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { ...data, updatedAt: new Date() } }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    }
+
+    const updatedPost = await db.collection('posts').findOne({ _id: new ObjectId(id) });
+
+    return NextResponse.json({ post: updatedPost }, { status: 200 });
+  } catch (error) {
+    console.error('Error updating post:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
+// DELETE 요청 처리 핸들러
+export async function DELETE(request: NextRequest, { params }: Params) {
+  try {
+    const { db } = await connectToDatabase();
+    const id = params.id;
+
+    // ObjectId 형식이 아닌 경우 400 반환
+    if (!ObjectId.isValid(id)) {
+      return NextResponse.json({ error: 'Invalid post ID' }, { status: 400 });
+    }
+
+    const result = await db.collection('posts').deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Post deleted successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
