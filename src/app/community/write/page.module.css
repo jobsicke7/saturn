@@ -1,0 +1,70 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.container h1 {
+    color: white;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.titleContainer {
+    margin-bottom: 20px;
+}
+
+.titleInput {
+    width: calc(100% - 20px);
+    padding: 12px;
+    font-size: 18px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.titleInput::placeholder {
+    color: #666;
+}
+
+.editorContainer {
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.submitButton,
+.cancelButton {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.submitButton {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+}
+
+.submitButton:disabled {
+    background-color: #333;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background-color: #1a1a1a;
+    color: #ddd;
+    border: 1px solid #333;
+}
