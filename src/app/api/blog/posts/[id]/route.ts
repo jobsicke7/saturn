@@ -1,20 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getServerSession } from 'next-auth/next';
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
 
-// Next.js 14/15 라우트 핸들러 타입 정의
-interface Params {
-  id: string;
-}
-
-// GET 핸들러
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Params }
-): Promise<Response> {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     await connectDB();
     
@@ -27,7 +17,7 @@ export async function GET(
       );
     }
     
-    return NextResponse.json({ post });
+    return NextResponse.json({ post }, { status: 200 });
   } catch (error) {
     console.error('Error fetching post:', error);
     return NextResponse.json(
@@ -37,13 +27,9 @@ export async function GET(
   }
 }
 
-// PUT 핸들러
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Params }
-): Promise<Response> {
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
     
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -72,7 +58,7 @@ export async function PUT(
       );
     }
     
-    const { title, content, mainImage } = await request.json();
+    const { title, content, mainImage } = await req.json();
     
     post.title = title;
     post.content = content;
@@ -82,7 +68,8 @@ export async function PUT(
     await post.save();
     
     return NextResponse.json(
-      { message: 'Post updated successfully', post }
+      { message: 'Post updated successfully', post },
+      { status: 200 }
     );
   } catch (error) {
     console.error('Error updating post:', error);
@@ -93,13 +80,9 @@ export async function PUT(
   }
 }
 
-// DELETE 핸들러
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Params }
-): Promise<Response> {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
     
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -131,7 +114,8 @@ export async function DELETE(
     await Post.findByIdAndDelete(params.id);
     
     return NextResponse.json(
-      { message: 'Post deleted successfully' }
+      { message: 'Post deleted successfully' },
+      { status: 200 }
     );
   } catch (error) {
     console.error('Error deleting post:', error);
