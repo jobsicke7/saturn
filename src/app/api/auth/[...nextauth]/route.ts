@@ -1,3 +1,4 @@
+// src/app/api/auth/[...nextauth]/route.ts
 import NextAuth from 'next-auth';
 import type { NextAuthOptions } from 'next-auth';
 import NaverProvider from 'next-auth/providers/naver';
@@ -8,7 +9,8 @@ import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/mongodb';
 import User from '@/models/User';
 
-export const authOptions: NextAuthOptions = {
+// authOptions는 내보내지 않고 내부에서만 사용합니다
+const authOptions: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     NaverProvider({
@@ -81,5 +83,6 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
+// NextAuth 핸들러를 생성하고 이를 내보냅니다
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
