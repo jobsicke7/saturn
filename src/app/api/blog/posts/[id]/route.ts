@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // authOptions 임포트
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
 
+// GET 핸들러 수정
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
   try {
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(context.params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -31,12 +32,12 @@ export async function GET(
   }
 }
 
+// PUT 핸들러 수정
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
   try {
-    // authOptions를 명시적으로 전달
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user?.email) {
@@ -48,7 +49,7 @@ export async function PUT(
     
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(context.params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -66,7 +67,7 @@ export async function PUT(
       );
     }
     
-    const { title, content, mainImage } = await req.json();
+    const { title, content, mainImage } = await request.json();
     
     post.title = title;
     post.content = content;
@@ -88,12 +89,12 @@ export async function PUT(
   }
 }
 
+// DELETE 핸들러 수정
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
   try {
-    // authOptions를 명시적으로 전달
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user?.email) {
@@ -105,7 +106,7 @@ export async function DELETE(
     
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(context.params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -123,7 +124,7 @@ export async function DELETE(
       );
     }
     
-    await Post.findByIdAndDelete(params.id);
+    await Post.findByIdAndDelete(context.params.id);
     
     return NextResponse.json(
       { message: 'Post deleted successfully' },
