@@ -1,14 +1,19 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
 
+// Next.js 14/15 라우트 핸들러 타입 정의
+interface Params {
+  id: string;
+}
+
 // GET 핸들러
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Params }
 ): Promise<Response> {
   try {
     await connectDB();
@@ -16,16 +21,16 @@ export async function GET(
     const post = await Post.findById(params.id);
     
     if (!post) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Post not found' },
         { status: 404 }
       );
     }
     
-    return Response.json({ post });
+    return NextResponse.json({ post });
   } catch (error) {
     console.error('Error fetching post:', error);
-    return Response.json(
+    return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
@@ -34,14 +39,14 @@ export async function GET(
 
 // PUT 핸들러
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Params }
 ): Promise<Response> {
   try {
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user?.email) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
@@ -52,7 +57,7 @@ export async function PUT(
     const post = await Post.findById(params.id);
     
     if (!post) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Post not found' },
         { status: 404 }
       );
@@ -61,7 +66,7 @@ export async function PUT(
     // 글 작성자이거나 관리자인 경우에만 수정 가능
     const adminStatus = await isAdmin(session.user.email);
     if (session.user.email !== post.author.email && !adminStatus) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
@@ -76,12 +81,12 @@ export async function PUT(
     
     await post.save();
     
-    return Response.json(
+    return NextResponse.json(
       { message: 'Post updated successfully', post }
     );
   } catch (error) {
     console.error('Error updating post:', error);
-    return Response.json(
+    return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
@@ -90,14 +95,14 @@ export async function PUT(
 
 // DELETE 핸들러
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
+  { params }: { params: Params }
 ): Promise<Response> {
   try {
     const session = await getServerSession(authOptions);
     
     if (!session || !session.user?.email) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
@@ -108,7 +113,7 @@ export async function DELETE(
     const post = await Post.findById(params.id);
     
     if (!post) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Post not found' },
         { status: 404 }
       );
@@ -117,7 +122,7 @@ export async function DELETE(
     // 글 작성자이거나 관리자인 경우에만 삭제 가능
     const adminStatus = await isAdmin(session.user.email);
     if (session.user.email !== post.author.email && !adminStatus) {
-      return Response.json(
+      return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
@@ -125,12 +130,12 @@ export async function DELETE(
     
     await Post.findByIdAndDelete(params.id);
     
-    return Response.json(
+    return NextResponse.json(
       { message: 'Post deleted successfully' }
     );
   } catch (error) {
     console.error('Error deleting post:', error);
-    return Response.json(
+    return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
