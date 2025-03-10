@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // authOptions 임포트
 import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
@@ -35,7 +36,8 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession();
+    // authOptions를 명시적으로 전달
+    const session = await getServerSession(authOptions);
     
     if (!session || !session.user?.email) {
       return NextResponse.json(
@@ -91,7 +93,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession();
+    // authOptions를 명시적으로 전달
+    const session = await getServerSession(authOptions);
     
     if (!session || !session.user?.email) {
       return NextResponse.json(
