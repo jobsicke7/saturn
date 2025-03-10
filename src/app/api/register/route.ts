@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import clientPromise from '@/lib/mongodb';
+import { clientPromise } from '@/lib/mongodb';
 import type { RegistrationData } from '@/types/register';
 
 export async function POST(req: Request) {
