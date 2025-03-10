@@ -728,7 +728,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
                 {value}
               </ReactMarkdown>
             ) : (
-              <p className={styles.placeholder}>내용이 없습니다</p>
+              <p className={styles.placeholder}>내용이 없습니다.</p>
             )}
           </div>
         ) : (
