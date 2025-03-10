@@ -6,6 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import styles from '@/styles/blog.module.css';
 import { uploadImage, deleteImage } from '@/utils/imageUploader';
+import { CodeProps } from 'react-markdown/lib/ast-to-react';
 
 interface MarkdownEditorProps {
   value: string;
@@ -667,7 +668,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
                     
                     return <blockquote className={className}>{children}</blockquote>;
                   },
-                  code: ({ node, inline, className, children, ...props }) => {
+                  code: ({ node, inline, className, children, ...props }: CodeProps) => {
                     const match = /language-(\w+)/.exec(className || '');
                     return !inline && match ? (
                       <SyntaxHighlighter
@@ -713,26 +714,27 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
                   ol: ({ children, ...props }) => (
                     <ol className={styles.ol} {...props} />
                   ),
-                  li: ({ children, ...props }) => {
-                    const childrenStr = String(props.children);
-                    const checkboxMatch = childrenStr.match(/^\[([ x])\] (.*)/);
-                    
-                    if (checkboxMatch) {
-                      return (
-                        <li className={styles.checklistItem}>
-                          <input
-                            type="checkbox"
-                            disabled
-                            checked={checkboxMatch[1] === 'x'}
-                            className={styles.checkbox}
-                          />
-                          <span>{checkboxMatch[2]}</span>
-                        </li>
-                      );
+                  li: ({ children, ...props }: React.LiHTMLAttributes<HTMLLIElement> & { children?: React.ReactNode }) => {
+                    if (typeof children === 'string') {
+                      const checkboxMatch = children.match(/^\[([ x])\] (.*)/);
+                      
+                      if (checkboxMatch) {
+                        return (
+                          <li className={styles.checklistItem}>
+                            <input
+                              type="checkbox"
+                              disabled
+                              checked={checkboxMatch[1] === 'x'}
+                              className={styles.checkbox}
+                            />
+                            <span>{checkboxMatch[2]}</span>
+                          </li>
+                        );
+                      }
                     }
                     
-                    return <li className={styles.li} {...props} />;
-                  },
+                    return <li className={styles.li} {...props}>{children}</li>;
+                  },                  
                   hr: () => <hr className={styles.hr} />,
                   a: ({ node, ...props }) => (
                     <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props} />
