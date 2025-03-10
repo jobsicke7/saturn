@@ -68,16 +68,27 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ url: fileUrl });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error uploading file:', error);
+    
+    // 오류 메시지 추출 (TypeScript 오류 해결)
+    let errorMessage = 'Unknown error';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === 'string') {
+      errorMessage = error;
+    } else if (error && typeof error === 'object' && 'message' in error) {
+      errorMessage = String((error as any).message);
+    }
+
     return NextResponse.json(
-      { error: `Error uploading file: ${error.message}` },
+      { error: `Error uploading file: ${errorMessage}` },
       { status: 500 }
     );
   }
 }
 
-// 큰 파일을 처리하기 위해 bodyParser 비활성화
+// 큰 파일을 처리하기 위해 bodyParser 설정
 export const config = {
   api: {
     bodyParser: false,
