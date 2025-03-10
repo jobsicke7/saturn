@@ -1,4 +1,3 @@
-// api/auth/reset-password/route.ts
 import { NextResponse } from 'next/server';
 import { clientPromise } from '@/lib/mongodb'; // named import 사용
 import bcrypt from 'bcryptjs';
@@ -7,7 +6,7 @@ export async function POST(req: Request) {
     try {
         const { token, newPassword } = await req.json();
         const mongoClient = await clientPromise; // 변수명을 명확하게
-        const db = mongoClient.db();
+        const db = mongoClient.db();  // This should work now
 
         const user = await db.collection('users').findOne({
             resetToken: token,

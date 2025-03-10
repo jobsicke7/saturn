@@ -16,11 +16,9 @@ const options = {
   },
 };
 
-// MongoDB 클라이언트 및 Promise 선언
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-// 전역 타입 확장
 declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
   var _mongooseConnection: {
@@ -29,7 +27,6 @@ declare global {
   };
 }
 
-// 개발 환경에서는 전역 변수를 사용하여 연결 유지
 if (process.env.NODE_ENV === 'development') {
   if (!global._mongoClientPromise) {
     client = new MongoClient(uri, options);
@@ -37,7 +34,6 @@ if (process.env.NODE_ENV === 'development') {
   }
   clientPromise = global._mongoClientPromise;
 } else {
-  // 프로덕션 환경에서는 새 인스턴스 생성
   client = new MongoClient(uri, options);
   clientPromise = client.connect();
 }
@@ -46,13 +42,10 @@ if (process.env.NODE_ENV === 'development') {
 if (!global._mongooseConnection) {
   global._mongooseConnection = {
     conn: null,
-    promise: null
+    promise: null,
   };
 }
 
-/**
- * MongoDB에 Mongoose로 연결
- */
 async function connectDB() {
   if (global._mongooseConnection.conn) {
     return global._mongooseConnection.conn;
@@ -65,7 +58,7 @@ async function connectDB() {
 
     global._mongooseConnection.promise = mongoose.connect(uri, opts);
   }
-  
+
   try {
     await global._mongooseConnection.promise;
     global._mongooseConnection.conn = mongoose.connection;
@@ -77,5 +70,6 @@ async function connectDB() {
   return mongoose.connection;
 }
 
+// Explicitly declare the type of the clientPromise
 export { clientPromise };
 export default connectDB;
