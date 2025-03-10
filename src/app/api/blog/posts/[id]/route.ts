@@ -3,17 +3,14 @@ import { getServerSession } from 'next-auth/next';
 import Post from '@/models/Post';
 import connectDB from '@/lib/mongodb';
 
-// 라우트 파라미터 타입
-type Params = { id: string };
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Params }
-) {
+export async function GET(request: NextRequest) {
   try {
     await connectDB();
     
-    const id = params.id;
+    // URL에서 ID 추출
+    const pathname = request.nextUrl.pathname;
+    const id = pathname.split('/').pop();
+    
     const post = await Post.findById(id);
 
     if (!post) {
@@ -33,15 +30,15 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Params }
-) {
+export async function PUT(request: NextRequest) {
   try {
     const session = await getServerSession();
     await connectDB();
     
-    const id = params.id;
+    // URL에서 ID 추출
+    const pathname = request.nextUrl.pathname;
+    const id = pathname.split('/').pop();
+    
     const post = await Post.findById(id);
 
     if (!post) {
@@ -81,15 +78,15 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Params }
-) {
+export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession();
     await connectDB();
     
-    const id = params.id;
+    // URL에서 ID 추출
+    const pathname = request.nextUrl.pathname;
+    const id = pathname.split('/').pop();
+    
     const post = await Post.findById(id);
 
     if (!post) {
