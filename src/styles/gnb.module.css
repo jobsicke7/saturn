@@ -1,11 +1,13 @@
+/* styles/gnb.module.css */
 .navbar {
     position: fixed;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     left: 0;
     right: 0;
     transition: background-color 0.3s ease;
     width: 100%;
+    height: 70px; /* 명확한 높이 지정 */
 }
 
 .transparent {
@@ -13,20 +15,22 @@
 }
 
 .solid {
-    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.627);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
+    height: 100%; /* 컨테이너의 높이를 100%로 설정 */
 }
 
 .navContent {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
 }
 
 .logo {
@@ -50,15 +54,15 @@
 }
 
 .transparentLink {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .transparentLink:hover {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(51, 51, 51, 0.8);
 }
 
 .solidLink {
-    color: #ffffff;
+    color: white;
 }
 
 .solidLink:hover {
@@ -84,17 +88,21 @@
 
 .userName {
     font-size: 0.875rem;
-    color: white;
+    color: rgb(0, 0, 0);
     margin-right: 0.5rem;
+}
+
+.solidUserName {
+    color: white;
 }
 
 .loginButton {
     background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.7);
     border-radius: 4px;
     padding: 0.4rem 1rem;
     font-size: 0.875rem;
-    color: white;
+    color: rgb(0, 0, 0);
     cursor: pointer;
     transition: all 0.3s ease;
     outline: none;
@@ -122,22 +130,22 @@
     cursor: pointer;
 }
 
-/* 사이드 네비게이션 스타일 */
+/* 사이드 네비게이션 스타일 - 오른쪽에서 나오도록 변경 */
 .sideNav {
     position: fixed;
     top: 0;
-    left: -300px;
+    right: -300px; /* 왼쪽이 아닌 오른쪽에서 시작 */
     width: 300px;
     height: 100vh;
-    background-color: white;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 100;
-    transition: left 0.3s ease;
+    background-color: rgb(255, 255, 255);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* 그림자 방향 조정 */
+    z-index: 1100; /* 오버레이보다 위에 표시 */
+    transition: right 0.3s ease; /* left가 아닌 right로 전환 */
     overflow-y: auto;
 }
 
 .sideNavOpen {
-    left: 0;
+    right: 0; /* 왼쪽이 아닌 오른쪽에서 슬라이드 */
 }
 
 .sideNavHeader {
@@ -201,14 +209,15 @@
     color: #333;
 }
 
+/* styles/gnb.module.css (이어서) */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 90;
+    background-color: rgba(0, 0, 0, 0.573);
+    z-index: 1050; /* 사이드네비보다 낮고, 다른 요소보다 높은 z-index */
     display: none;
 }
 
@@ -241,6 +250,10 @@
     background-color: rgba(255, 0, 0, 0.1);
     border-color: rgba(255, 0, 0, 0.5);
     color: #ff4d4d;
+}
+
+.solid .userName {
+    color: white;
 }
 
 /* 모바일 반응형 조정 */

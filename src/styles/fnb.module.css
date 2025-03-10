@@ -1,9 +1,9 @@
-/* styles/FNB.module.css */
+/* styles/fnb.module.css */
 .footer {
     background-color: #f5f5f5;
     width: 100%;
-    margin-top: auto;
-    /* 상단 여백을 auto로 설정하여 하단으로 밀림 */
+    position: relative;
+    margin-top: auto; /* 상단 여백을 auto로 설정하여 하단으로 밀림 */
 }
 
 .container {
@@ -89,10 +89,14 @@
     .grid {
         gap: 2rem;
     }
-
+    
     .section {
         flex: 0 0 100%;
         max-width: 100%;
+    }
+    
+    .container {
+        padding: 2rem 1rem;
     }
 }
 

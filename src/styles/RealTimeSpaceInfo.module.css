@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Dark space background */
+    color: rgb(0, 0, 0);
+    font-family: "Arial", sans-serif;
+}
+
+.mainText {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    white-space: pre-wrap;
+    /* 줄바꿈 지원 */
+}
+
+.highlight {
+    font-size: 4rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ffd500, #ffea00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 5px rgba(255, 255, 0, 0.5),
+        0 0 10px rgba(255, 255, 0, 0.4);
+}

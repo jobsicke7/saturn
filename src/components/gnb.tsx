@@ -1,10 +1,10 @@
 // components/GNB.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import styles from '../styles/gnb.module.css';
 import { useSession, signIn, signOut } from "next-auth/react";
 
@@ -28,16 +28,20 @@ export default function GNB({ logo, navItems }: GNBProps) {
     const [isTransparent, setIsTransparent] = useState(true);
     const [isSideNavOpen, setIsSideNavOpen] = useState(false);
     const router = useRouter();
+    const pathname = usePathname();
     const { data: session, status } = useSession();
+    const sideNavRef = useRef<HTMLDivElement>(null);
 
     const handleAuth = () => {
         if (session) {
             signOut({ redirect: false });
         } else {
             router.push("/login");
+            setIsSideNavOpen(false); // 로그인 페이지로 이동 시 사이드 네비게이션 닫기
         }
     };
 
+    // 스크롤에 따른 GNB 스타일 변경
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 10) {
@@ -48,9 +52,13 @@ export default function GNB({ logo, navItems }: GNBProps) {
         };
 
         window.addEventListener('scroll', handleScroll);
+        // 초기 로드 시 스크롤 위치 확인
+        handleScroll();
+        
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // 사이드네비가 열렸을 때 body 스크롤 방지
     useEffect(() => {
         if (isSideNavOpen) {
             document.body.style.overflow = 'hidden';
@@ -60,6 +68,29 @@ export default function GNB({ logo, navItems }: GNBProps) {
 
         return () => {
             document.body.style.overflow = '';
+        };
+    }, [isSideNavOpen]);
+
+    // URL이 변경될 때 사이드네비 닫기
+    useEffect(() => {
+        setIsSideNavOpen(false);
+    }, [pathname]);
+
+    // 바깥 영역 클릭 시 사이드네비 닫기
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                sideNavRef.current && 
+                !sideNavRef.current.contains(event.target as Node) &&
+                isSideNavOpen
+            ) {
+                setIsSideNavOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isSideNavOpen]);
 
@@ -96,7 +127,7 @@ export default function GNB({ logo, navItems }: GNBProps) {
                             <div className={styles.authSection}>
                                 {session ? (
                                     <div className={styles.userProfile}>
-                                        <span className={styles.userName}>
+                                        <span className={`${styles.userName} ${isTransparent ? '' : styles.solidUserName}`}>
                                             {session.user?.name || '사용자'}
                                         </span>
                                         <button 
@@ -129,7 +160,7 @@ export default function GNB({ logo, navItems }: GNBProps) {
                                 height="24"
                                 viewBox="0 0 24 24"
                                 fill="none"
-                                stroke={isTransparent ? "white" : "#333"}
+                                stroke={isTransparent ? "black" : "white"}
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -146,13 +177,16 @@ export default function GNB({ logo, navItems }: GNBProps) {
             {/* 오버레이 */}
             <div
                 className={`${styles.overlay} ${isSideNavOpen ? styles.overlayVisible : ''}`}
-                onClick={toggleSideNav}
+                onClick={() => setIsSideNavOpen(false)}
             ></div>
 
-            {/* 사이드 네비게이션 */}
-            <div className={`${styles.sideNav} ${isSideNavOpen ? styles.sideNavOpen : ''}`}>
+            {/* 사이드 네비게이션 - 오른쪽에서 나오도록 변경 */}
+            <div 
+                ref={sideNavRef} 
+                className={`${styles.sideNav} ${isSideNavOpen ? styles.sideNavOpen : ''}`}
+            >
                 <div className={styles.sideNavHeader}>
-                    <Link href="/" onClick={toggleSideNav}>
+                    <Link href="/" onClick={() => setIsSideNavOpen(false)}>
                         <Image
                             src={logo.src}
                             alt={logo.alt}
@@ -163,7 +197,7 @@ export default function GNB({ logo, navItems }: GNBProps) {
                     </Link>
                     <button
                         className={styles.closeButton}
-                        onClick={toggleSideNav}
+                        onClick={() => setIsSideNavOpen(false)}
                         aria-label="메뉴 닫기"
                     >
                         ✕
@@ -175,7 +209,6 @@ export default function GNB({ logo, navItems }: GNBProps) {
                             key={index}
                             href={item.href}
                             className={styles.sideNavItem}
-                            onClick={toggleSideNav}
                         >
                             {item.label}
                         </Link>
