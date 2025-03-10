@@ -4,11 +4,14 @@ import connectDB from '@/lib/mongodb';
 import Post from '@/models/Post';
 import { isAdmin } from '@/lib/auth';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+  
   try {
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(id);
     
     if (!post) {
       return NextResponse.json(
@@ -27,10 +30,13 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+
   try {
     const session = await getServerSession();
-    
+
     if (!session || !session.user?.email) {
       return NextResponse.json(
         { error: 'Unauthorized' },
@@ -40,7 +46,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(id);
     
     if (!post) {
       return NextResponse.json(
@@ -49,7 +55,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       );
     }
     
-    // 글 작성자이거나 관리자인 경우에만 수정 가능
     const adminStatus = await isAdmin(session.user.email);
     if (session.user.email !== post.author.email && !adminStatus) {
       return NextResponse.json(
@@ -80,7 +85,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+
   try {
     const session = await getServerSession();
     
@@ -93,7 +101,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(id);
     
     if (!post) {
       return NextResponse.json(
@@ -102,7 +110,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       );
     }
     
-    // 글 작성자이거나 관리자인 경우에만 삭제 가능
     const adminStatus = await isAdmin(session.user.email);
     if (session.user.email !== post.author.email && !adminStatus) {
       return NextResponse.json(
@@ -111,7 +118,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       );
     }
     
-    await Post.findByIdAndDelete(params.id);
+    await Post.findByIdAndDelete(id);
     
     return NextResponse.json(
       { message: 'Post deleted successfully' },
