@@ -668,23 +668,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
                     
                     return <blockquote className={className}>{children}</blockquote>;
                   },
-                  code: ({ node, inline, className, children, ...props }: CodeProps) => {
-                    const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={tomorrow}
-                        language={match[1]}
-                        PreTag="div"
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
-                    ) : (
-                      <code className={`${className} ${styles.inlineCode}`} {...props}>
-                        {children}
-                      </code>
-                    );
-                  },
+                  
                   h1: ({ node, children }) => (
                     <h1 className={styles.h1}>{children}</h1>
                   ),
