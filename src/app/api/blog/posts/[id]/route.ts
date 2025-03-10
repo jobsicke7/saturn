@@ -6,12 +6,12 @@ import connectDB from '@/lib/mongodb';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(context.params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -32,14 +32,14 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession();
     
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(context.params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -80,14 +80,14 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession();
     
     await connectDB();
     
-    const post = await Post.findById(params.id);
+    const post = await Post.findById(context.params.id);
     
     if (!post) {
       return NextResponse.json(
@@ -104,7 +104,7 @@ export async function DELETE(
       );
     }
     
-    await Post.findByIdAndDelete(params.id);
+    await Post.findByIdAndDelete(context.params.id);
     
     return NextResponse.json(
       { message: 'Post deleted successfully' },

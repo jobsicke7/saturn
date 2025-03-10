@@ -111,7 +111,7 @@ export default function BlogPage() {
     <div className={styles.blogContainer}>
       <div className={styles.banner}>
         <Image 
-          src="/images/blog-banner.png" 
+          src="/images/BannerBackground.webp" 
           alt="Blog Banner" 
           width={1200} 
           height={300} 
