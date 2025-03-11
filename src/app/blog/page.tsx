@@ -135,7 +135,7 @@ export default function BlogPage() {
       ) : filteredPosts.length > 0 ? (
         <div className={styles.postsGrid}>
           {filteredPosts.map(post => (
-            <div key={post._id} className={styles.postCard}>
+            <Link href={`/blog/${post._id}`} key={post._id} className={styles.postCard}>
               {post.mainImage && (
                 <div className={styles.postImageContainer}>
                   <Image 
@@ -159,11 +159,8 @@ export default function BlogPage() {
                 <p className={styles.postExcerpt}>
                   {truncateContent(post.content)}
                 </p>
-                <Link href={`/blog/${post._id}`} className={styles.readMoreLink}>
-                  자세히 보기
-                </Link>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       ) : (

@@ -2,23 +2,38 @@
 .blogContainer {
     margin: 100px auto 0; /* 상단 70px 마진 적용 */
     max-width: 1200px;
-    min-height: 100vh;
+    min-height: 120vh;
     padding: 20px;
   }
   
   .banner {
     width: 100%;
-    height: 300px;
+    height: 300px; /* 기본 높이 */
     position: relative;
     margin-bottom: 20px;
     overflow: hidden;
     border-radius: 8px;
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center;
   }
   
   .bannerImage {
-    object-fit: cover;
     width: 100%;
     height: 100%;
+    object-fit: cover; /* 부모 크기에 맞게 채우되, 비율 유지 */
+  }
+  
+  @media (max-width: 768px) {
+    .banner {
+      height: auto; /* 모바일에서는 높이 자동 조정 */
+    }
+  
+    .bannerImage {
+      width: 100%;
+      height: auto; /* 이미지 비율 유지 */
+      object-fit: contain; /* 잘리지 않고 가로를 100%로 맞춤 */
+    }
   }
   
   .blogHeader {
@@ -104,7 +119,7 @@
     display: flex;
     border: 1px solid #eee;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: hidpoden;
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -151,68 +166,86 @@
     color: #666;
   }
   
-  /* Post Detail Styles */
-  .postDetailContainer {
+  /* 전체 컨테이너 스타일 */
+.postDetailContainer {
     min-height: 100vh;
-    max-width: 900px;
-    margin: 70px 0 auto;
+    max-width: clamp(320px, 90%, 900px); /* 가변적인 최대 너비 */
+    margin: 100px auto;
     padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease-in-out;
   }
   
-  .postMainImage {
-    margin-bottom: 30px;
-    border-radius: 8px;
-    overflow: hidden;
+  /* 다크 모드 지원 */
+  @media (prefers-color-scheme: dark) {
+    .postDetailContainer {
+      background: #1e1e1e;
+      color: #ddd;
+    }
   }
   
-  .postHeader {
-    margin-bottom: 30px;
+  /* 헤더 스타일 */
+  .postTitle1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 30px;
   }
   
-  .postTitle {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-  }
-  
-  .postMetadata {
+  /* 메타데이터 (작성자, 날짜) */
+  .postMeta {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .authorInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .authorName {
-    font-weight: 500;
-  }
-  
-  .postDate {
-    color: #666;
     font-size: 14px;
+    color: #777;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
   }
   
+  /* 메인 이미지 반응형 처리 */
+  .postMainImage {
+    width: 100%;
+    max-height: 500px;
+    aspect-ratio: 16/9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 30px;
+  }
+  
+  .mainImage {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  /* 버튼 스타일 개선 */
   .postActions {
     display: flex;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
   }
   
   .shareButton, .editButton, .deleteButton {
-    padding: 8px 12px;
-    border-radius: 4px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
     border: none;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease-in-out;
   }
   
   .shareButton {
-    background-color: #f0f0f0;
+    background-color: #f5f5f5;
+    color: #333;
   }
   
   .shareButton:hover {
@@ -220,11 +253,123 @@
   }
   
   .editButton {
-    background-color: #0066cc;
+    background-color: #007bff;
     color: white;
   }
   
- /* app/blog/blog.module.css - 마저 완성 */
+  .editButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .deleteButton {
+    background-color: #ff4d4f;
+    color: white;
+  }
+  
+  .deleteButton:hover {
+    background-color: #d9363e;
+  }
+  
+  /* 본문 스타일 */
+  .postContent {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+  }
+  
+  /* 반응형 처리 */
+  @media (max-width: 768px) {
+    .postDetailContainer {
+      padding: 15px;
+    }
+  
+    .postMeta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+  
+    .postActions {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    .postTitle {
+      font-size: 1.8rem;
+    }
+  }
+  
+  /* 포스트 그리드 */
+.postsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+  }
+  
+  .postCard {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .postCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .postImageContainer {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+  
+  .postThumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  
+  .postCard:hover .postThumbnail {
+    transform: scale(1.05);
+  }
+  .postInfo {
+    padding: 20px;
+  }
+  
+  .postTitle {
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .postTitle a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .postTitle a:hover {
+    color: #0066cc;
+  }
+  
+  .postDate {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+  
+  .postExcerpt {
+    color: #7a7a7a;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+  
+  
+ /* app/blog/blog.module.css - 마저 postInfo 완성 */
 .editButton:hover {
     background-color: #0055aa;
   }

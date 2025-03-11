@@ -28,12 +28,12 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           type="text"
           value={query}
           onChange={handleChange}
-          placeholder="검색어를 입력하세요"
+          placeholder="검색"
           className={styles.searchInput}
         />
-        <button type="submit" className={styles.searchButton}>
+        {/* <button type="submit" className={styles.searchButton}>
           검색
-        </button>
+        </button> */}
       </form>
     </div>
   );
