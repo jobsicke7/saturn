@@ -6,7 +6,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'credit-cdn-internal.wakcareers.com',
+        hostname: '**.wakcareers.com',
       },
     ],
   },
