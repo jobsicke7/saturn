@@ -5,8 +5,32 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PasswordModal from '@/components/PasswordModal';
 import DocEditor from '@/components/DocEditor';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 export default function TermsEditPage() {
+    const [isAdmin, setIsAdmin] = useState(false);
+    const { data: session } = useSession();
+    useEffect(() => {
+        // 관리자 여부 확인
+        const checkAdminStatus = async () => {
+          if (session?.user?.email) {
+            const response = await fetch(`/api/admin/check?email=${session.user.email}`);
+            const data = await response.json();
+            setIsAdmin(data.isAdmin);
+          }
+        };
+        
+        if (session) {
+          checkAdminStatus();
+        }
+      }, [session]);
+      if (!session) {
+        redirect('/api/auth/signin');
+      }
+      if (!isAdmin) {
+        redirect('/api/auth/signin');
+      }
     const [content, setContent] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);

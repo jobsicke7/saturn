@@ -5,13 +5,37 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PasswordModal from '@/components/PasswordModal';
 import DocEditor from '@/components/DocEditor';
+import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default function PrivacyEditPage() {
+    const [isAdmin, setIsAdmin] = useState(false);
+    const { data: session } = useSession();
+    useEffect(() => {
+        // 관리자 여부 확인
+        const checkAdminStatus = async () => {
+          if (session?.user?.email) {
+            const response = await fetch(`/api/admin/check?email=${session.user.email}`);
+            const data = await response.json();
+            setIsAdmin(data.isAdmin);
+          }
+        };
+        
+        if (session) {
+          checkAdminStatus();
+        }
+      }, [session]);
+      if (!session) {
+        redirect('/api/auth/signin');
+      }
+      if (!isAdmin) {
+        redirect('/api/auth/signin');
+      }
     const [content, setContent] = useState<string>(''); // The content fetched from API
     const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // Authentication state
     const router = useRouter();
-
+    
     useEffect(() => {
         // Fetch document content
         const fetchContent = async () => {
@@ -41,13 +65,13 @@ export default function PrivacyEditPage() {
         fetchContent();
     }, []); // This effect runs only once when the component is mounted
 
-    const handleVerifyPassword = async (password: string) => {
-        if (password === 'jslove0619qq@@') {
-            setIsAuthenticated(true);
-            return true;
-        }
-        return false;
-    };
+    // const handleVerifyPassword = async (password: string) => {
+    //     if (password === 'jslove0619qq@@') {
+    //         setIsAuthenticated(true);
+    //         return true;
+    //     }
+    //     return false;
+    // };
 
     const handleSave = async (newContent: string) => {
         try {
@@ -78,9 +102,9 @@ export default function PrivacyEditPage() {
         return <div></div>; // Optional: Add a loading spinner or message
     }
 
-    if (!isAuthenticated) {
-        return <PasswordModal onVerify={handleVerifyPassword} />;
-    }
+    // if (!isAuthenticated) {
+    //     return <PasswordModal onVerify={handleVerifyPassword} />;
+    // }
 
     return (
         <main>

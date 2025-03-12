@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PrivacyPage() {
+    
     let content = '';
 
     try {
