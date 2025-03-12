@@ -170,6 +170,7 @@
 .postDetailContainer {
     min-height: 100vh;
     max-width: clamp(320px, 90%, 900px); /* 가변적인 최대 너비 */
+    min-width: clamp(320px, 90%, 900px);
     margin: 100px auto;
     padding: 20px;
     background: #fff;
@@ -230,6 +231,7 @@
     display: flex;
     justify-content: center;
     gap: 12px;
+    margin-top: 50px;
     margin-bottom: 20px;
   }
   
@@ -272,6 +274,7 @@
   
   /* 본문 스타일 */
   .postContent {
+    margin-top: 50px;
     font-size: 1rem;
     line-height: 1.8;
     color: #333;
