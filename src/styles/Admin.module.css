@@ -1,225 +1,310 @@
 /* Admin Layout */
 .adminLayout {
-    margin-top: 70px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f5f7fa;
-  }
-  
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.adminContainer {
+  display: flex;
+  flex: 1;
+}
+
+.adminContent {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Common Elements */
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Form Elements */
+.formCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+.inputError {
+  border-color: #e53e3e;
+}
+
+.inputWrapper {
+  width: 100%;
+}
+
+.errorMessage {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #fff5f5;
+  border-radius: 4px;
+}
+
+.successMessage {
+  color: #38a169;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f0fff4;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button-primary {
+  background-color: #4299e1;
+  color: white;
+}
+
+.button-primary:hover:not(:disabled) {
+  background-color: #3182ce;
+}
+
+.button-secondary {
+  background-color: #a0aec0;
+  color: white;
+}
+
+.button-secondary:hover:not(:disabled) {
+  background-color: #718096;
+}
+
+.button-danger {
+  background-color: #f56565;
+  color: white;
+}
+
+.button-danger:hover:not(:disabled) {
+  background-color: #e53e3e;
+}
+
+.button-outline {
+  background-color: transparent;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+}
+
+.button-outline:hover:not(:disabled) {
+  background-color: #f7fafc;
+}
+
+.button-small {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.button-medium {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.button-large {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* User Badges */
+.verifiedBadge {
+  display: inline-block;
+  background-color: #c6f6d5;
+  color: #2f855a;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.unverifiedBadge {
+  display: inline-block;
+  background-color: #fed7d7;
+  color: #c53030;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Containers */
+.permissionsContainer, .usersContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tableCard {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.searchBar {
+  margin-bottom: 1.5rem;
+}
+
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: #718096;
+}
+
+.emptyState {
+  padding: 2rem;
+  text-align: center;
+  color: #718096;
+  background-color: #f7fafc;
+  border-radius: 4px;
+}
+
+/* 모바일에서 사이드바 상단 배치 및 가로 길게 변경 */
+@media (max-width: 768px) {
   .adminContainer {
-    display: flex;
-    flex: 1;
+    flex-direction: column; /* 세로에서 가로로 변경 */
+    width: 100%;
   }
-  
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    width: 100%; /* 가로로 길게 */
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebarNav {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .navList {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   .adminContent {
-    flex: 1;
-    padding: 2rem;
-    overflow-y: auto;
+    padding: 1rem;
+    margin-top: 60px; /* 사이드바 아래 여백 추가 */
   }
-  
-  /* Common Elements */
+
+  /* 버튼 사이즈 조정 */
+  .button-small {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .button-medium {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+
+  /* 페이지 타이틀 크기 조정 */
   .pageTitle {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #1a202c;
-    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
   }
-  
-  .card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  /* Form Elements */
-  .formCard {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
+
   .cardTitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #1a202c;
+    font-size: 1rem;
+  }
+
+  /* 카드 크기 조정 */
+  .card, .formCard {
+    width: 100%;
     margin-bottom: 1rem;
   }
-  
+
   .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    width: 100%;
   }
-  
-  .formGroup {
-    margin-bottom: 1rem;
-  }
-  
+
   .input {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
   }
-  
-  .input:focus {
-    outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
-  }
-  
-  .inputError {
-    border-color: #e53e3e;
-  }
-  
-  .inputWrapper {
+
+  .tableCard {
     width: 100%;
   }
-  
-  .errorMessage {
-    color: #e53e3e;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    background-color: #fff5f5;
-    border-radius: 4px;
-  }
-  
-  .successMessage {
-    color: #38a169;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    background-color: #f0fff4;
-    border-radius: 4px;
-  }
-  
-  /* Buttons */
+
+  /* 버튼 효과 */
   .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    cursor: pointer;
-    border: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
   }
-  
-  .button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+
+  .button:hover {
+    transform: scale(1.05);
   }
-  
-  .button-primary {
-    background-color: #4299e1;
-    color: white;
-  }
-  
-  .button-primary:hover:not(:disabled) {
-    background-color: #3182ce;
-  }
-  
-  .button-secondary {
-    background-color: #a0aec0;
-    color: white;
-  }
-  
-  .button-secondary:hover:not(:disabled) {
-    background-color: #718096;
-  }
-  
-  .button-danger {
-    background-color: #f56565;
-    color: white;
-  }
-  
-  .button-danger:hover:not(:disabled) {
-    background-color: #e53e3e;
-  }
-  
-  .button-outline {
-    background-color: transparent;
-    color: #4a5568;
-    border: 1px solid #e2e8f0;
-  }
-  
-  .button-outline:hover:not(:disabled) {
-    background-color: #f7fafc;
-  }
-  
-  .button-small {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.875rem;
-  }
-  
-  .button-medium {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-  }
-  
-  .button-large {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
-  
-  /* User Badges */
-  .verifiedBadge {
-    display: inline-block;
-    background-color: #c6f6d5;
-    color: #2f855a;
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  
-  .unverifiedBadge {
-    display: inline-block;
-    background-color: #fed7d7;
-    color: #c53030;
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  
-  /* Containers */
-  .permissionsContainer, .usersContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .tableCard {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding: 1.5rem;
-    overflow: hidden;
-  }
-  
-  .searchBar {
-    margin-bottom: 1.5rem;
-  }
-  
-  .loading {
-    padding: 2rem;
-    text-align: center;
-    color: #718096;
-  }
-  
-  .emptyState {
-    padding: 2rem;
-    text-align: center;
-    color: #718096;
-    background-color: #f7fafc;
-    border-radius: 4px;
-  }
-  
+}
