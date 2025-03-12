@@ -103,7 +103,7 @@ export default function PermissionsList() {
 
   return (
     <div className={styles.permissionsContainer}>
-      <h1 className={styles.pageTitle}>Admin Permissions</h1>
+      <h1 className={styles.pageTitle}>관리자 권한</h1>
       
       <div className={styles.formCard}>
         <h2 className={styles.cardTitle}>관리자 등록</h2>

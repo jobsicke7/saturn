@@ -3,14 +3,14 @@
 }
 
 .textarea {
-    width: calc(100% - 20px);
+    width: calc(100%);
     min-height: 100px;
     padding: 10px;
     margin-bottom: 10px;
     margin-right: 20px;
     border: 1px solid #333;
     border-radius: 4px;
-    background-color: #c0c0c0;
+    background-color: #ffffff;
     color: rgb(0, 0, 0);
 }
 

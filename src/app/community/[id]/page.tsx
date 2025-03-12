@@ -104,7 +104,7 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
                         )}
                 </div>
             </div>
-            <div className={styles.content} data-color-mode="dark">
+            <div className={styles.content} data-color-mode="white">
                 <MarkdownPreview source={post.content} />
             </div>
             <CommentForm postId={resolvedParams.id} isLoggedIn={!!session} />

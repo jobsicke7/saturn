@@ -1,11 +1,12 @@
 .container {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: 100px auto;
     padding: 20px;
 }
 
 .container h1 {
-    color: white;
+    color: rgb(0, 0, 0);
+    margin-bottom: 30px;
 }
 
 .form {
@@ -19,13 +20,13 @@
 }
 
 .titleInput {
-    width: calc(100% - 20px);
+    width: calc(100%);
     padding: 12px;
     font-size: 18px;
     border: 1px solid #333;
     border-radius: 4px;
-    background-color: #1a1a1a;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
 }
 
 .titleInput::placeholder {
@@ -33,6 +34,7 @@
 }
 
 .editorContainer {
+    border: 1px solid #333;
     border-radius: 4px;
     overflow: hidden;
 }

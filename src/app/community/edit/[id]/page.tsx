@@ -70,7 +70,7 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
                         required
                     />
                 </div>
-                <div className={styles.editorContainer} data-color-mode="dark">
+                <div className={styles.editorContainer} data-color-mode="white">
                     <MDEditor
                         value={content}
                         onChange={(val) => setContent(val || '')}

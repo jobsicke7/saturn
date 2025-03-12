@@ -65,7 +65,7 @@ export default function WritePage() {
                         required
                     />
                 </div>
-                <div className={styles.editorContainer} data-color-mode="dark">
+                <div className={styles.editorContainer} data-color-mode="white">
                     <MDEditor
                         value={content}
                         onChange={(val) => setContent(val || '')}

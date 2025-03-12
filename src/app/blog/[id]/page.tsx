@@ -106,9 +106,9 @@ export default function BlogPostDetail() {
       <div className={styles.postMeta}>
         <span className={styles.postAuthor}>{post.author.name}</span>
         <span className={styles.postDate}>{formatDate(post.createdAt)}</span>
-        {post.updatedAt !== post.createdAt && (
+        {/* {post.updatedAt !== post.createdAt && (
           <span className={styles.postUpdated}>(수정됨: {formatDate(post.updatedAt)})</span>
-        )}
+        )} */}
       </div>
       
       {post.mainImage && (

@@ -588,6 +588,7 @@
   }
   
   .loading, .notFound {
+    margin-top: 100px;
     text-align: center;
     padding: 50px;
     font-size: 18px;
