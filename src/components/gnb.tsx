@@ -187,13 +187,13 @@ export default function GNB({ logo, navItems }: GNBProps) {
             >
                 <div className={styles.sideNavHeader}>
                     <Link href="/" onClick={() => setIsSideNavOpen(false)}>
-                        <Image
+                        {/* <Image
                             src={logo.src}
                             alt={logo.alt}
                             width={logo.width * 0.8}
                             height={logo.height * 0.8}
                             priority
-                        />
+                        /> */}
                     </Link>
                     <button
                         className={styles.closeButton}
