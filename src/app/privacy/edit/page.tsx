@@ -11,6 +11,10 @@ import { useSession } from 'next-auth/react';
 export default function PrivacyEditPage() {
     const [isAdmin, setIsAdmin] = useState(false);
     const { data: session } = useSession();
+    const [content, setContent] = useState<string>(''); // The content fetched from API
+    const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // Authentication state
+    const router = useRouter();
     useEffect(() => {
         // 관리자 여부 확인
         const checkAdminStatus = async () => {
@@ -25,17 +29,6 @@ export default function PrivacyEditPage() {
           checkAdminStatus();
         }
       }, [session]);
-      if (!session) {
-        redirect('/api/auth/signin');
-      }
-      if (!isAdmin) {
-        redirect('/api/auth/signin');
-      }
-    const [content, setContent] = useState<string>(''); // The content fetched from API
-    const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // Authentication state
-    const router = useRouter();
-    
     useEffect(() => {
         // Fetch document content
         const fetchContent = async () => {
@@ -101,7 +94,12 @@ export default function PrivacyEditPage() {
     if (isLoading) {
         return <div></div>; // Optional: Add a loading spinner or message
     }
-
+    if (!session) {
+    redirect('/api/auth/signin');
+    }
+    if (!isAdmin) {
+    redirect('/api/auth/signin');
+    }
     // if (!isAuthenticated) {
     //     return <PasswordModal onVerify={handleVerifyPassword} />;
     // }

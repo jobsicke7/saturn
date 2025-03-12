@@ -34,5 +34,5 @@ export default async function TermsPage() {
         console.error('Error fetching terms of service from MongoDB:', error);
     }
 
-    return <DocViewer content={content} title="이용약관" />;
+    return <DocViewer content={content} title="이용약관" docType='terms' />;
 }

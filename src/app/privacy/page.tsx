@@ -35,5 +35,5 @@ export default async function PrivacyPage() {
         console.error('Error fetching privacy policy from MongoDB:', error);
     }
 
-    return <DocViewer content={content} title="개인정보처리방침" />;
+    return <DocViewer content={content} title="개인정보처리방침" docType='privacy'/>;
 }

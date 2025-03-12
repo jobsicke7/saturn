@@ -11,7 +11,7 @@ interface DocViewerProps {
     docType?: 'privacy' | 'terms'; // 문서 타입 추가
 }
 
-export default function DocViewer({ content, title, docType = 'privacy' }: DocViewerProps) {
+export default function DocViewer({ content, title, docType}: DocViewerProps) {
     const [parsedContent, setParsedContent] = useState<any>(null);
     const [clickCount, setClickCount] = useState(0);
     const clickTimer = useRef<NodeJS.Timeout | null>(null);

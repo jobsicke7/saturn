@@ -11,6 +11,11 @@ import { redirect } from 'next/navigation';
 export default function TermsEditPage() {
     const [isAdmin, setIsAdmin] = useState(false);
     const { data: session } = useSession();
+    
+    const [content, setContent] = useState<string>('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const router = useRouter();
     useEffect(() => {
         // 관리자 여부 확인
         const checkAdminStatus = async () => {
@@ -22,20 +27,10 @@ export default function TermsEditPage() {
         };
         
         if (session) {
+            console.log()
           checkAdminStatus();
         }
       }, [session]);
-      if (!session) {
-        redirect('/api/auth/signin');
-      }
-      if (!isAdmin) {
-        redirect('/api/auth/signin');
-      }
-    const [content, setContent] = useState<string>('');
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const router = useRouter();
-
     useEffect(() => {
         // 문서 내용 가져오기
         const fetchContent = async () => {
@@ -87,11 +82,13 @@ export default function TermsEditPage() {
     if (isLoading) {
         return <div></div>;
     }
-
-    if (!isAuthenticated) {
-        return <PasswordModal onVerify={handleVerifyPassword} />;
+    
+    if (!session) {
+    redirect('/api/auth/signin');
     }
-
+    if (!isAdmin) {
+    redirect('/api/auth/signin');
+    }
     return (
         <main>
             <DocEditor
