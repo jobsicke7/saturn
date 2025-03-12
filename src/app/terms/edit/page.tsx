@@ -50,7 +50,7 @@ export default function TermsEditPage() {
                     password: 'jslove0619qq@@', // 저장할 때도 비밀번호 검증
                 }),
             });
-
+            router.push('/terms');
             if (!response.ok) {
                 throw new Error('Failed to save document');
             }
@@ -61,7 +61,7 @@ export default function TermsEditPage() {
     };
 
     if (isLoading) {
-        return <div>로딩 중...</div>;
+        return <div></div>;
     }
 
     if (!isAuthenticated) {

@@ -1,6 +1,6 @@
 /* components/styles/DocViewer.module.css */
 .container {
-    width: 100%;
+    min-width: 95%;
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem 1rem;
