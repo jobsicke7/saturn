@@ -1,12 +1,18 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { use } from 'react';
 import styles from '../../write/page.module.css';
 import style from '../../../../styles/main.module.css';
-const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
+import ImageUploader from '../../../../components/ImageUploader';
+
+// markdown 에디터를 클라이언트 사이드에서만 로드
+const MDEditor = dynamic(
+    () => import('@uiw/react-md-editor'),
+    { ssr: false }
+);
 
 export default function EditPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
@@ -30,6 +36,12 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
                 setIsLoading(false);
             });
     }, [resolvedParams.id, router, session?.user?.email]);
+
+    const handleImageUpload = useCallback((imageUrl: string) => {
+        // 이미지 마크다운을 컨텐츠 끝에 추가
+        const imageMarkdown = `![이미지](${imageUrl})`;
+        setContent(prev => prev ? `${prev}\n${imageMarkdown}` : imageMarkdown);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -69,6 +81,9 @@ export default function EditPage({ params }: { params: Promise<{ id: string }> }
                         className={styles.titleInput}
                         required
                     />
+                </div>
+                <div className={styles.editorToolbar}>
+                    <ImageUploader onImageUrl={handleImageUpload} />
                 </div>
                 <div className={styles.editorContainer} data-color-mode="white">
                     <MDEditor

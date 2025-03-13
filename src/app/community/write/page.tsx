@@ -1,13 +1,14 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import styles from './page.module.css';
+import ImageUploader from '../../../components/ImageUploader';
 
 // markdown 에디터를 클라이언트 사이드에서만 로드
 const MDEditor = dynamic(
-    () => import('@uiw/react-md-editor').then(mod => mod.default),
+    () => import('@uiw/react-md-editor'),
     { ssr: false }
 );
 
@@ -23,6 +24,12 @@ export default function WritePage() {
         router.push('/community');
         return null;
     }
+
+    const handleImageUpload = useCallback((imageUrl: string) => {
+        // 이미지 마크다운을 컨텐츠 끝에 추가
+        const imageMarkdown = `![이미지](${imageUrl})`;
+        setContent(prev => prev ? `${prev}\n${imageMarkdown}` : imageMarkdown);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -64,6 +71,9 @@ export default function WritePage() {
                         className={styles.titleInput}
                         required
                     />
+                </div>
+                <div className={styles.editorToolbar}>
+                    <ImageUploader onImageUrl={handleImageUpload} />
                 </div>
                 <div className={styles.editorContainer} data-color-mode="white">
                     <MDEditor
