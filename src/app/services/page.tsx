@@ -33,7 +33,7 @@ const servicesData: ServiceData[] = [
     description: '항공우주/천문과 관련된 용어를 검색해보세요',
     imageUrl: '/poster_landscape.png',
     direction: 'right',
-    link: '/services/mobile-app', // 링크 확인
+    link: '/services/ast', // 링크 확인
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const servicesData: ServiceData[] = [
     description: 'ISS(국제우주정거장)의 실시간 위치 및 관련 정보를 확인해보세요',
     imageUrl: '/poster_landscape.png',
     direction: 'left',
-    link: '/services/cloud-solution', // 링크 확인
+    link: '/services/iss', // 링크 확인
   },
 ]
 
