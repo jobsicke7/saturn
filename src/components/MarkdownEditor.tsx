@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -106,31 +106,31 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
     let newCursorPos;
     
     switch (format) {
-      case 'bold':
+      case '**bold**':
         newText = before + '**' + selectedText + '**' + after;
         newCursorPos = end + 4;
         break;
-      case 'italic':
+      case '*italic*':
         newText = before + '*' + selectedText + '*' + after;
         newCursorPos = end + 2;
         break;
-      case 'code':
+      case '`code`':
         newText = before + '`' + selectedText + '`' + after;
         newCursorPos = end + 2;
         break;
-      case 'strikethrough':
+      case '~~strikethrough~~':
         newText = before + '~~' + selectedText + '~~' + after;
         newCursorPos = end + 4;
         break;
-      case 'h1':
+      case '# h1':
         newText = before + '# ' + selectedText + after;
         newCursorPos = end + 2;
         break;
-      case 'h2':
+      case '## h2':
         newText = before + '## ' + selectedText + after;
         newCursorPos = end + 3;
         break;
-      case 'h3':
+      case '### h3':
         newText = before + '### ' + selectedText + after;
         newCursorPos = end + 4;
         break;
@@ -210,81 +210,168 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
       }
       
       // 글머리 기호 목록 확인
-      const bulletListMatch = lastLine.match(/^([*\-+])\s(.*)$/);
-      if (bulletListMatch) {
-        // 현재 줄이 빈 목록이면 목록 끝내기
-        if (bulletListMatch[2].trim() === '') {
-          const withoutLastLine = before.substring(0, before.length - lastLine.length);
-          onChange(withoutLastLine + '\n' + after);
-          setCursorPosition(withoutLastLine.length + 1);
-        } else {
-          // 같은 글머리 기호로 계속
-          const nextItem = `\n${bulletListMatch[1]} `;
-          onChange(before + nextItem + after);
-          setCursorPosition(start + nextItem.length);
-        }
-        e.preventDefault();
-        return;
-      }
-      
-      // 체크리스트 확인
-      const checklistMatch = lastLine.match(/^([\-*]) \[([ x])\]\s(.*)$/);
-      if (checklistMatch) {
-        // 현재 줄이 빈 체크리스트면 목록 끝내기
-        if (checklistMatch[3].trim() === '') {
-          const withoutLastLine = before.substring(0, before.length - lastLine.length);
-          onChange(withoutLastLine + '\n' + after);
-          setCursorPosition(withoutLastLine.length + 1);
-        } else {
-          // 같은 타입으로 체크리스트 계속
-          const nextItem = `\n${checklistMatch[1]} [ ] `;
-          onChange(before + nextItem + after);
-          setCursorPosition(start + nextItem.length);
-        }
-        e.preventDefault();
-        return;
-      }
-      
-      // 일반 Enter 키 처리
-      if (!before.endsWith('\n') && !after.startsWith('\n')) {
-        onChange(before + '\n' + after);
-        e.preventDefault();
-        setCursorPosition(start + 1);
-      }
-    }
-    
-    // Tab 키 처리
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      
-      const textarea = textareaRef.current;
-      if (!textarea) return;
-      
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      
-      // 여러 줄이 선택되었는지 확인
-      if (start !== end && value.substring(start, end).includes('\n')) {
-        // 여러 줄 들여쓰기 처리
-        const selectedText = value.substring(start, end);
+      if (e.key === 'Enter') {
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+        
+        const start = textarea.selectionStart;
         const before = value.substring(0, start);
-        const after = value.substring(end);
+        const after = value.substring(start);
         
-        // Shift + Tab : 내어쓰기, Tab만 : 들여쓰기
-        const newSelectedText = e.shiftKey 
-          ? selectedText.replace(/^(\t|  )/gm, '') // 탭이나 두 칸 공백 제거
-          : selectedText.replace(/^/gm, '  '); // 각 줄 시작에 두 칸 공백 추가
+        // 목록 자동 계속
+        const lastLine = before.split('\n').pop() || '';
+        
+        // 숫자 목록 확인
+        const numberedListMatch = lastLine.match(/^(\d+)\.\s(.*)$/);
+        if (numberedListMatch) {
+          const num = parseInt(numberedListMatch[1]);
           
-        onChange(before + newSelectedText + after);
+          // 현재 줄이 빈 목록이면 목록 끝내기
+          if (numberedListMatch[2].trim() === '') {
+            const withoutLastLine = before.substring(0, before.length - lastLine.length);
+            onChange(withoutLastLine + '\n' + after);
+            setCursorPosition(withoutLastLine.length + 1);
+          } else {
+            // 다음 숫자로 목록 계속
+            const nextItem = `\n${num + 1}. `;
+            onChange(before + nextItem + after);
+            setCursorPosition(start + nextItem.length);
+          }
+          e.preventDefault();
+          return;
+        }
         
-        // 선택 영역 유지, 수정된 텍스트의 길이를 고려하여 위치 조정
-        textarea.setSelectionRange(
-          start,
-          start + newSelectedText.length
-        );
-      } else {
-        // 단일 위치 또는 한 줄 선택일 경우
-        insertText('  '); // 두 칸 공백 삽입
+        // 글머리 기호 목록 확인
+        const bulletListMatch = lastLine.match(/^([*\-+])\s(.*)$/);
+        if (bulletListMatch) {
+          // 현재 줄이 빈 목록이면 목록 끝내기
+          if (bulletListMatch[2].trim() === '') {
+            const withoutLastLine = before.substring(0, before.length - lastLine.length);
+            onChange(withoutLastLine + '\n' + after);
+            setCursorPosition(withoutLastLine.length + 1);
+          } else {
+            // 같은 글머리 기호로 계속
+            const nextItem = `\n${bulletListMatch[1]} `;
+            onChange(before + nextItem + after);
+            setCursorPosition(start + nextItem.length);
+          }
+          e.preventDefault();
+          return;
+        }
+        
+        // 체크리스트 확인
+        const checklistMatch = lastLine.match(/^([\-*]) \[([ x])\]\s(.*)$/);
+        if (checklistMatch) {
+          // 현재 줄이 빈 체크리스트면 목록 끝내기
+          if (checklistMatch[3].trim() === '') {
+            const withoutLastLine = before.substring(0, before.length - lastLine.length);
+            onChange(withoutLastLine + '\n' + after);
+            setCursorPosition(withoutLastLine.length + 1);
+          } else {
+            // 같은 타입으로 체크리스트 계속
+            const nextItem = `\n${checklistMatch[1]} [ ] `;
+            onChange(before + nextItem + after);
+            setCursorPosition(start + nextItem.length);
+          }
+          e.preventDefault();
+          return;
+        }
+        
+        // 일반 Enter 키 처리 - 마크다운 줄바꿈을 위해 공백 두 개 추가
+        const lastChar = before.slice(-1);
+        // 이미 줄 끝에 공백이 있는지 확인
+        const endsWithTwoSpaces = before.slice(-2) === '  ';
+        
+        if (endsWithTwoSpaces) {
+          // 이미 공백 두 개가 있으면 그냥 줄바꿈만 추가
+          onChange(before + '\n' + after);
+        } else if (lastChar === ' ') {
+          // 공백이 하나만 있으면 하나 더 추가
+          onChange(before + ' \n' + after);
+        } else {
+          // 공백이 없으면 두 개 추가
+          onChange(before + '  \n' + after);
+        }
+        
+        setCursorPosition(start + (endsWithTwoSpaces ? 1 : lastChar === ' ' ? 2 : 3));
+        e.preventDefault();
+        return;
+      }
+      
+      // Tab 키 처리
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+        
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        
+        // 선택된 텍스트가 있는 경우
+        if (start !== end) {
+          const selectedText = value.substring(start, end);
+          const lines = selectedText.split('\n');
+          
+          // 들여쓰기 또는 내어쓰기 적용
+          const newLines = lines.map(line => 
+            e.shiftKey ? line.replace(/^\t/, '') : '\t' + line
+          );
+          
+          const newText = value.substring(0, start) + newLines.join('\n') + value.substring(end);
+          onChange(newText);
+          
+          // 선택 영역 유지
+          setTimeout(() => {
+            textarea.selectionStart = start;
+            textarea.selectionEnd = start + newLines.join('\n').length;
+          }, 0);
+        } else {
+          // 선택된 텍스트가 없는 경우 탭 문자 삽입
+          const newText = value.substring(0, start) + '\t' + value.substring(end);
+          onChange(newText);
+          setCursorPosition(start + 1);
+        }
+      }
+      
+      // Ctrl+B: 굵게
+      if (e.ctrlKey && e.key === 'b') {
+        e.preventDefault();
+        applyFormatToSelection('**bold**');
+      }
+      
+      // Ctrl+I: 기울임
+      if (e.ctrlKey && e.key === 'i') {
+        e.preventDefault();
+        applyFormatToSelection('*italic*');
+      }
+      
+      // Ctrl+K: 링크
+      if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault();
+        const textarea = textareaRef.current;
+        if (!textarea) return;
+        
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = value.substring(start, end);
+        
+        if (selectedText) {
+          const newText = value.substring(0, start) + `[${selectedText}](URL)` + value.substring(end);
+          onChange(newText);
+          // URL 부분 선택
+          setTimeout(() => {
+            textarea.selectionStart = start + selectedText.length + 3;
+            textarea.selectionEnd = start + selectedText.length + 6;
+          }, 0);
+        } else {
+          const newText = value.substring(0, start) + '[링크 텍스트](URL)' + value.substring(end);
+          onChange(newText);
+          // 링크 텍스트 부분 선택
+          setTimeout(() => {
+            textarea.selectionStart = start + 1;
+            textarea.selectionEnd = start + 6;
+          }, 0);
+        }
       }
     }
   };
@@ -433,7 +520,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
           <div className={styles.toolbarGroup}>
             <button 
               type="button" 
-              onClick={() => applyFormatToSelection('bold')}
+              onClick={() => applyFormatToSelection('**bold**')}
               className={styles.toolbarButton}
               title="굵게 (Ctrl+B)"
             >
@@ -441,7 +528,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
             </button>
             <button 
               type="button" 
-              onClick={() => applyFormatToSelection('italic')}
+              onClick={() => applyFormatToSelection('*italic*')}
               className={styles.toolbarButton}
               title="기울임 (Ctrl+I)"
             >
@@ -449,7 +536,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
             </button>
             <button 
               type="button" 
-              onClick={() => applyFormatToSelection('strikethrough')}
+              onClick={() => applyFormatToSelection('~~strikethrough~~')}
               className={styles.toolbarButton}
               title="취소선"
             >
@@ -457,7 +544,7 @@ export default function MarkdownEditor({ value, onChange, placeholder }: Markdow
             </button>
             <button 
               type="button" 
-              onClick={() => applyFormatToSelection('code')}
+              onClick={() => applyFormatToSelection('`code`')}
               className={styles.toolbarButton}
               title="인라인 코드"
             >

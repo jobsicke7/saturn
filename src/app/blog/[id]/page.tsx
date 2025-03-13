@@ -78,7 +78,7 @@ export default function BlogPostDetail() {
   const handleEdit = () => router.push(`/blog/edit/${id}`);
   
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
+      navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 3000);
     }).catch(console.error);
