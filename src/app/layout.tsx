@@ -6,12 +6,14 @@ import GNB from '../components/gnb';
 import FNB from '../components/fnb';
 import styles from '../styles/Layout.module.css';
 import { AuthProvider } from '../components/AuthProvider';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'My Next.js 15 Application',
+  title: 'Saturn',
   description: 'Created with Next.js 15',
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

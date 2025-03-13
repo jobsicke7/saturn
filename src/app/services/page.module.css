@@ -1,0 +1,23 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin-top: 100px;
+    max-width: 95%;
+  }
+  
+  .servicesContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .servicesContainer {
+      padding: 1rem;
+    }
+  }
