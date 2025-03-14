@@ -92,7 +92,7 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
     return (
         <div className={styles.container}>
             <div className={styles.navigation}>
-                <Link href="/community" className={styles.backButton}>
+                <Link href="/services/astroinfo" className={styles.backButton}>
                     <ArrowLeft size={16} />
                     목록으로
                 </Link>
@@ -119,7 +119,7 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
                     {session?.user?.email === post.authorEmail && (
                         <div className={styles.postActions}>
                             <Link
-                                href={`/community/edit/${post._id}`}
+                                href={`/services/astroinfo/edit/${post._id}`}
                                 className={styles.editButton}
                             >
                                 수정
