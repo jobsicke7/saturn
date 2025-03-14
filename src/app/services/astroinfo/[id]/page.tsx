@@ -81,7 +81,7 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
         <div className={styles.container}>
             <div className={styles.errorContainer}>
                 <p>게시글을 찾을 수 없습니다</p>
-                <Link href="/community" className={styles.backButton}>
+                <Link href="/services/astroinfo" className={styles.backButton}>
                     <ArrowLeft size={16} />
                     커뮤니티로 돌아가기
                 </Link>

@@ -74,8 +74,9 @@ export default function CommunityPage() {
             </div>
             {recentPost ? (
                 <div className={styles.recentPost} data-color-mode="white">
-                    <Link href={`/astroinfo/${recentPost._id}`}>
-                        <h2 className={styles.recentPostTitle}>{recentPost.title}</h2>
+                    <Link href={`/services/astroinfo/${recentPost._id}`}>
+                        <h2 className={styles.recentPostTitle}>
+                            {recentPost.title}</h2>
                         <MarkdownPreview source={recentPost.content} />
                         <span className={styles.recentPostMeta}>
                             작성자: {recentPost.authorName}
@@ -110,13 +111,20 @@ export default function CommunityPage() {
                         <li key={post._id} className={styles.postItem}>
                             <Link href={`/services/astroinfo/${post._id}`}>
                                 <div>
-                                    {post.authorEmail === 'kr.nextnova@gmail.com' && (
-                                        <span className={styles.noticeTag}>공지</span>
-                                    )}
-                                    <span className={styles.postTitle}>{post.title}</span>
+                                    <span className={styles.postTitle}>
+                                        {post.authorEmail === 'APOD' && (
+                                                <span className={styles.noticeTag}>APOD</span>
+                                        )}
+                                        {post.title}
+                                    </span>
                                 </div>
                                 <div className={styles.postMeta}>
-                                    <span className={styles.author}>{post.authorName}</span>
+                                    
+                                    <span className={styles.author}>
+                                        
+                                        {post.authorName}
+                                        </span>
+                                    
                                     <div>
                                         <span className={styles.date}>{formatDate(post.createdAt)}</span>
                                         <span className={styles.viewCount}>· 조회수 {post.views}</span>
