@@ -1,0 +1,103 @@
+/* src/components/Controls/Controls.module.css */
+.controls {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+    z-index: 10;
+    max-width: 300px;
+    backdrop-filter: blur(4px);
+  }
+  
+  .speedControls, .viewControls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .speedControls h3, .viewControls h3 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    color: #ADD8E6;
+  }
+  
+  .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .button {
+    background-color: rgba(50, 50, 50, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  .button:hover {
+    background-color: rgba(70, 70, 70, 0.8);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .button:active {
+    transform: translateY(1px);
+  }
+  
+  .button.active {
+    background-color: rgba(0, 120, 255, 0.6);
+    border-color: rgba(100, 200, 255, 0.6);
+    font-weight: bold;
+  }
+  
+  .hints {
+    margin-top: 12px;
+    font-size: 12px;
+    opacity: 0.8;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+  }
+  
+  .hints p {
+    margin: 3px 0;
+  }
+  
+  .currentSpeed {
+    font-size: 14px;
+    margin-top: 6px;
+    opacity: 0.9;
+    color: #ADD8E6;
+  }
+  
+  /* 반응형 디자인 */
+  @media (max-width: 768px) {
+    .controls {
+      bottom: 10px;
+      left: 10px;
+      max-width: calc(100% - 20px);
+      padding: 12px;
+    }
+    
+    .button {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    
+    .speedControls h3, .viewControls h3 {
+      font-size: 14px;
+    }
+    
+    .hints, .currentSpeed {
+      font-size: 11px;
+    }
+  }
+  
