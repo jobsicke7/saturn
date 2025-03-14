@@ -25,7 +25,7 @@ const servicesData: ServiceData[] = [
     description: '최신 천문소식을 쉽고 편리하게 확인해보세요',
     imageUrl: '/poster_landscape.png',
     direction: 'left',
-    link: '/services/astro', // 링크 확인
+    link: '/services/astroinfo', // 링크 확인
   },
   {
     id: 2,
