@@ -59,12 +59,12 @@ export default function CommunityPage() {
                 <h1>최근 소식</h1>
             </div>
             {recentPost ? (
-                <div className={styles.recentPost} data-color-mode="dark">
+                <div className={styles.recentPost} data-color-mode="white">
                     <Link href={`/astroinfo/${recentPost._id}`}>
                         <h2 className={styles.recentPostTitle}>{recentPost.title}</h2>
                         <MarkdownPreview source={recentPost.content} />
                         <span className={styles.recentPostMeta}>
-                            작성자: {recentPost.authorName} | 조회수: {recentPost.views}
+                            작성자: {recentPost.authorName}
                         </span>
                     </Link>
                 </div>

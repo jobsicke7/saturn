@@ -398,3 +398,34 @@
       width: 100%;
     }
   }
+  .recentPost a {
+    text-decoration: none;
+}
+
+.recentPost {
+    line-height: 1.6;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #ffffff;
+    /* border-radius: 4px;
+    border: 1px solid #333; */
+    color: white;
+}
+
+.recentPostTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.recentPostContent {
+    font-size: 14px;
+    color: #c7c7c7;
+    margin: 8px 0;
+}
+
+.recentPostMeta {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #3e3e3e;
+}
