@@ -12,9 +12,23 @@ const MarkdownPreview = dynamic(
 );
 export default function CommunityPage() {
     const [posts, setPosts] = useState<Post[]>([]);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const { data: session } = useSession();
-
+    useEffect(() => {
+        // 관리자 여부 확인
+        const checkAdminStatus = async () => {
+          if (session?.user?.email) {
+            const response = await fetch(`/api/admin/check?email=${session.user.email}`);
+            const data = await response.json();
+            setIsAdmin(data.isAdmin);
+          }
+        };
+        
+        if (session) {
+          checkAdminStatus();
+        }
+      }, [session]);
     useEffect(() => {
         setIsLoading(true);
         fetch('/api/astroinfo')
@@ -72,8 +86,9 @@ export default function CommunityPage() {
                 <p></p>
             )}
             <div className={styles.header}>
-                <h1>커뮤니티</h1>
-                {session && (
+                <h1>천문 소식</h1>
+                
+                {isAdmin && (
                     <Link href="/services/astroinfo/write" className={styles.writeButton}>
                         <Pencil size={16} />
                         글쓰기
