@@ -73,7 +73,9 @@ export default function ImageUploader({ onImageUrl }: ImageUploaderProps) {
       >
         <Image size={18} color={isUploading ? '#999' : '#000'} />
         {isUploading && <span style={{ marginLeft: '5px', fontSize: '12px' }}>업로드 중...</span>}
+        이미지 업로드
       </button>
+      
       <input
         type="file"
         ref={fileInputRef}
