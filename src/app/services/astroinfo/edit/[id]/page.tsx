@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { use } from 'react';
 import styles from '../../write/page.module.css';
-import style from '../../../../styles/main.module.css';
+import style from '@/styles/main.module.css';
 import ImageUploader from '@/components/ImageUploader';
 
 // markdown 에디터를 클라이언트 사이드에서만 로드
