@@ -1,65 +1,117 @@
+/* Sidebar.module.css */
 .sidebar {
-    width: 250px;
-    background-color: white;
-    border-right: 1px solid #e2e8f0;
-    height: calc(100vh - 60px);
+  width: 250px;
+  background-color: white;
+  border-right: 1px solid #e2e8f0;
+  height: calc(100vh - 60px);
+  position: sticky;
+  top: 60px;
+  overflow-y: auto;
+}
+
+.sidebarHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sidebarHeader h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0;
+}
+
+.sidebarNav {
+  padding: 1rem 0;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navItem {
+  margin-bottom: 0.25rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: #4a5568;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.navLink:hover {
+  background-color: #f7fafc;
+}
+
+.navLink.active {
+  background-color: #ebf8ff;
+  color: #3182ce;
+  font-weight: 500;
+}
+
+.navIcon {
+  margin-right: 0.75rem;
+  width: 20px;
+  text-align: center;
+}
+
+.navLabel {
+  flex: 1;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
     position: sticky;
     top: 60px;
-    overflow-y: auto;
-  }
-  
-  .sidebarHeader {
-    padding: 1.5rem;
+    border-right: none;
     border-bottom: 1px solid #e2e8f0;
+    z-index: 9;
   }
-  
-  .sidebarHeader h2 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1a202c;
-    margin: 0;
-  }
-  
-  .sidebarNav {
-    padding: 1rem 0;
-  }
-  
-  .navList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .navItem {
-    margin-bottom: 0.25rem;
-  }
-  
-  .navLink {
+
+  .sidebarHeader {
+    padding: 0.75rem 1rem;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 1.5rem;
-    color: #4a5568;
-    text-decoration: none;
-    transition: background-color 0.2s;
   }
-  
-  .navLink:hover {
-    background-color: #f7fafc;
+
+  .sidebarHeader h2 {
+    font-size: 0.9rem;
+    margin-right: 1rem;
   }
-  
-  .navLink.active {
-    background-color: #ebf8ff;
-    color: #3182ce;
-    font-weight: 500;
+
+  .sidebarNav {
+    padding: 0;
   }
-  
+
+  .navList {
+    display: flex;
+    padding: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navItem {
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .navLink {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
   .navIcon {
-    margin-right: 0.75rem;
-    width: 20px;
-    text-align: center;
+    margin-right: 0.5rem;
   }
-  
-  .navLabel {
-    flex: 1;
-  }
-  
+}

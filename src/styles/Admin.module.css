@@ -308,3 +308,48 @@
     transform: scale(1.05);
   }
 }
+/* Add these to Admin.module.css, either replacing the existing media query or adding if missing */
+@media (max-width: 768px) {
+  .adminLayout {
+    margin-top: 60px;
+  }
+
+  .adminContainer {
+    flex-direction: column;
+  }
+
+  .adminContent {
+    padding: 1rem;
+    margin-top: 0;
+  }
+
+  /* Adjust card layouts */
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .card, .formCard, .tableCard {
+    padding: 1rem;
+  }
+
+  /* Adjust form elements */
+  .formGroup {
+    width: 100%;
+  }
+
+  /* Table responsiveness */
+  .tableWrapper {
+    overflow-x: auto;
+  }
+
+  .button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  /* Adjust page titles */
+  .pageTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+}
