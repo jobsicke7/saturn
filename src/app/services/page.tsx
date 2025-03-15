@@ -36,11 +36,19 @@ const servicesData: ServiceData[] = [
     link: '/services/ast', // 링크 확인
   },
   {
+    id: 4,
+    title: '달의 위상',
+    description: '달의 위상을 직관적으로 확인해보세요',
+    imageUrl: '/poster_landscape.png',
+    direction: 'left',
+    link: '/services/moon', // 링크 확인
+  },
+  {
     id: 3,
     title: 'ISS 위치',
     description: 'ISS(국제우주정거장)의 실시간 위치 및 관련 정보를 확인해보세요',
     imageUrl: '/poster_landscape.png',
-    direction: 'left',
+    direction: 'right',
     link: '/services/iss', // 링크 확인
   },
 ]
