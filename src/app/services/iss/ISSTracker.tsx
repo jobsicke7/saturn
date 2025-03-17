@@ -64,7 +64,7 @@ const ISSTracker = () => {
     });
 
     const userIcon = new Icon({
-        iconUrl: "/images/my.png",
+        iconUrl: "/images/my.svg",
         iconSize: [32, 32],
         iconAnchor: [16, 16],
     });
@@ -251,7 +251,7 @@ const ISSTracker = () => {
         <div className={styles.container}>
             <div className={styles.rightContainer}>
                 <div className={`${styles.infoContainer}`}>
-                    <h2 style={{ marginBottom: '20px' }} className={issData?.visibility === 'daylight' ? styles.daylight : styles.nighttime}>
+                    <h2 style={{ marginBottom: '20px', fontSize: '18px'}} className={issData?.visibility === 'daylight' ? styles.daylight : styles.nighttime}>
                         {issData?.visibility === 'daylight'
                             ? "국제우주정거장이 낮 시간대에 위치해 있습니다"
                             : "국제우주정거장이 밤 시간대에 위치해 있습니다"}
@@ -260,29 +260,17 @@ const ISSTracker = () => {
                     <div className={styles.infoGrid}>
                         <div className={styles.infoLabel}>위도:</div>
                         <div className={styles.infoValue}>{issData?.latitude.toFixed(2)}°</div>
-
                         <div className={styles.infoLabel}>경도:</div>
                         <div className={styles.infoValue}>{issData?.longitude.toFixed(2)}°</div>
-
                         <div className={styles.infoLabel}>고도:</div>
                         <div className={styles.infoValue}>{issData?.altitude.toFixed(2)} km</div>
 
                         <div className={styles.infoLabel}>속도:</div>
                         <div className={styles.infoValue}>{issData?.velocity.toFixed(0)} km/h</div>
 
-                        <div className={styles.infoLabel}>KST:</div>
+                        <div className={styles.infoLabel}>KST / UTC :</div>
                         <div className={styles.infoValue}>
-                            {issData && formatTime(issData.timestamp).kst}
-                        </div>
-
-                        <div className={styles.infoLabel}>UTC:</div>
-                        <div className={styles.infoValue}>
-                            {issData && formatTime(issData.timestamp).utc}
-                        </div>
-
-                        <div className={styles.infoLabel}>PST:</div>
-                        <div className={styles.infoValue}>
-                            {issData && formatTime(issData.timestamp).pst}
+                            {issData && formatTime(issData.timestamp).kst} / {issData && formatTime(issData.timestamp).utc}
                         </div>
                     </div>
                 </div>

@@ -75,36 +75,38 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
   };
 
   const handleTranslate = async (language: string) => {
-    if (!post) return;
-
+    if (!post || !originalPost) return;
+  
     if (language === 'original') {
       setPost(originalPost);
       setIsTranslated(false);
       return;
     }
-
+  
     setIsTranslating(true);
-
+  
     try {
+      // 항상 원본 콘텐츠를 기준으로 번역
+      
       // 제목 번역
       const titleResponse = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: post.title, targetLanguage: language }),
+        body: JSON.stringify({ text: originalPost.title, targetLanguage: language }),
       });
       const titleData = await titleResponse.json();
       
-      // 본문 내용 번역
+      // 본문 내용 번역 (originalPost의 content 사용)
       const contentResponse = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: originalPost?.content || '', targetLanguage: language }),
+        body: JSON.stringify({ text: originalPost.content, targetLanguage: language }),
       });
       const contentData = await contentResponse.json();
-
+  
       // 번역된 내용으로 포스트 업데이트
       setPost({
-        ...post,
+        ...originalPost,  // 원본 데이터를 기반으로
         title: titleData.translatedText,
         content: contentData.translatedText,
       });

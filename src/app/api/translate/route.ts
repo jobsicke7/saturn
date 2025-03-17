@@ -14,19 +14,19 @@ export async function POST(request: Request) {
     
     // 이미지 태그를 특수 플레이스홀더로 대체
     let processedText = text;
-    const placeholders: string[] = [];
+    const placeholders: { [key: string]: string } = {};
     
     imageMatches.forEach((match: string, index: number) => {
-      const placeholder = `IMAGE_PLACEHOLDER_${index}`;
+      const placeholder = `__IMAGE_PLACEHOLDER_${index}__`;  // 구분자 추가
       processedText = processedText.replace(match, placeholder);
-      placeholders.push(placeholder);
+      placeholders[placeholder] = match;
     });
     
     // Gemini AI 모델 생성
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     
     // 번역 요청
-    const prompt = `Translate the following text to ${targetLanguage}. Preserve all markdown formatting. Don't translate placeholders that look like IMAGE_PLACEHOLDER_X:
+    const prompt = `Translate the following text to ${targetLanguage}. Preserve all markdown formatting. Keep the placeholder patterns that look like __IMAGE_PLACEHOLDER_X__ (where X is a number) unchanged:
 
 ${processedText}`;
     
@@ -35,8 +35,15 @@ ${processedText}`;
     let translatedText = response.text();
     
     // 이미지 태그 복원
-    imageMatches.forEach((match: string, index: number) => {
-      translatedText = translatedText.replace(`IMAGE_PLACEHOLDER_${index}`, match);
+    Object.keys(placeholders).forEach((placeholder) => {
+      translatedText = translatedText.replace(placeholder, placeholders[placeholder]);
+      // 만약 첫 번째 치환이 실패했을 경우, 직접 패턴을 찾아서 치환
+      if (translatedText.includes(placeholder.replace(/__/g, ''))) {
+        translatedText = translatedText.replace(
+          placeholder.replace(/__/g, ''), 
+          placeholders[placeholder]
+        );
+      }
     });
     
     return NextResponse.json({ translatedText });

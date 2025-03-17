@@ -63,7 +63,7 @@ interface MoonData {
   // 달 위상 이름을 한글로 변환하는 함수
   function getKoreanPhaseName(englishName: string): string {
     const phaseMap: {[key: string]: string} = {
-      'New Moon': '보름달',
+      'New Moon': '삭',
       'Waxing Crescent': '초승달',
       'First Quarter': '상현달',
       'Waxing Gibbous': '상현망간의달',
