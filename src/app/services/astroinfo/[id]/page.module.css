@@ -92,3 +92,19 @@
   .infoIcon {
     margin-right: 2px;
   }
+  /* 기존 스타일에 추가 */
+.translatingIndicator {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.postInfo {
+  max-width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #666;
+  font-size: 14px;
+  align-items: center;
+}
