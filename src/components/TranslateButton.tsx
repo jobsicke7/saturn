@@ -13,6 +13,7 @@ export default function TranslateButton({ onTranslate, isTranslated }: Translate
   
   const languages = [
     { code: 'original', name: '원문' },
+    { code: 'ko', name: '한국어' },
     { code: 'en', name: 'English' },
     { code: 'ja', name: '日本語' },
     { code: 'zh', name: '中文' },

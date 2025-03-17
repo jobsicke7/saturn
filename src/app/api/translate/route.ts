@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     });
     
     // Gemini AI 모델 생성
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     
     // 번역 요청
     const prompt = `Translate the following text to ${targetLanguage}. Preserve all markdown formatting. Don't translate placeholders that look like IMAGE_PLACEHOLDER_X:
