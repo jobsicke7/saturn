@@ -1,178 +1,335 @@
-.container {
-    width: 100%;
-    margin: 0 auto;
-    height: 74vh;
-    position: relative;
+.modernContainer {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto; /* 컨테이너 중앙 정렬 */
     display: flex;
     gap: 20px;
-    flex-direction: row;
-    min-height: auto;
     margin-bottom: 20px;
-    /* 기본적으로 데스크톱에서 수평 정렬 */
-}
-
-.mapContainer {
-    width: 89%;
-    height: 100%;
     position: relative;
-    order: 2;
-    z-index: 1;
-    /* 기본 순서 */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    flex-direction: row;
+    min-height: 600px;
+    height: 80vh;
 }
 
-.rightContainer {
-    width: 50%;
+.mapSection {
+    flex: 3;
+    position: relative;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    order: 1;
-    /* 기본 순서 */
+    min-height: 400px;
+    z-index: 10;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
 }
 
-.infoContainer {
-    flex: 1;
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    background-color: #424242;
-    font-size: 16px;
-}
-
-.daylight {
-    color: #fdc600;
-}
-
-.nighttime {
-    color: #2727ff;
-}
-
-.videoContainer {
-    flex: 1;
-
-}
-
-.map {
+.modernMap {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    background-color: #f5f5f5;
 }
 
-.nightOverlay {
-    background-color: rgba(0, 0, 0, 0.3);
-    position: absolute;
-    pointer-events: none;
-}
-
-.controls {
+.mapControls {
     position: absolute;
     top: 20px;
     right: 20px;
     z-index: 1000;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-.mapToggle {
-    padding: 8px 16px;
-    background-color: rgb(48, 48, 48);
-    border: 2px solid #000000;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: white;
-}
-
-.mapToggle:hover {
-    background-color: #424242;
-}
-
-.infoGrid {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
-    margin-top: 10px;
 }
 
-.infoLabel {
-    font-weight: bold;
+.modernButton {
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.infoValue {
-    text-align: right;
+.modernButton:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+}
+
+.infoPanel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    min-width: 280px;
+    max-width: 450px;
+}
+
+.statsCard, .videoCard {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+}
+
+.statsCard {
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.videoCard {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+}
+
+.cardHeader {
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cardTitle {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.statusBadge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .daylight {
-    font-size: 20px;
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #FF8C00;
 }
 
-/* 모바일 환경에서 반응형 처리 */
-@media (max-width: 900px) {
-    .container {
-        flex-direction: column;
-        /* 세로 정렬 */
-        height: auto;
-        /* 높이 자동 조정 */
-    }
+.nighttime {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #0066CC;
+}
 
-    .daylight {
-        font-size: 15px;
-    }
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 15px;
+    overflow-y: auto;
+    flex: 1;
+}
 
-    .mapContainer {
-        width: 100%;
-        height: 300px;
-        /* 지도 높이 설정 */
-        order: 1;
-        /* 지도를 상단으로 배치 */
-        position: relative;
-        overflow: hidden;
-        /* 지도 영역을 초과하는 요소 숨김 */
-    }
+.statItem {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
 
-    .map {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        /* 지도의 가로 길이를 우선 맞춤 */
-    }
+.statLabel {
+    color: #757575;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
 
-    .rightContainer {
-        width: 100%;
-        height: auto;
-        gap: 10px;
-        /* 간격 조정 */
-        order: 2;
-        /* 정보를 하단으로 배치 */
-        display: grid;
-        /* 그리드 레이아웃 적용 */
+.statValue {
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.videoWrapper {
+    flex: 1;
+    position: relative;
+    min-height: 200px;
+}
+
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.infoNote {
+    padding: 10px 15px;
+    font-size: 12px;
+    color: #757575;
+    background-color: #f5f5f5;
+    flex-shrink: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.infoNote p {
+    margin: 5px 0;
+    text-align: center;
+}
+
+.orbitPast {
+    color: #FF4136;
+    font-weight: bold;
+}
+
+.orbitFuture {
+    color: #0088cc;
+    font-weight: bold;
+}
+
+/* 반응형 디자인 - 모바일 최적화 */
+@media (max-width: 1200px) {
+    .statsGrid {
         grid-template-columns: 1fr 1fr;
-        /* 좌우로 나눔 */
-        gap: 10px;
     }
-
-    .infoContainer {
-        grid-column: 1;
-        /* 왼쪽 영역 */
-        padding: 10px;
-        font-size: 14px;
+    
+    .infoPanel {
+        max-width: 400px;
     }
+}
 
-    .videoContainer {
-        grid-column: 2;
-        /* 오른쪽 영역 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .videoContainer iframe {
-        width: 100%;
-        /* 너비 조정 */
+@media (max-width: 900px) {
+    .modernContainer {
+        flex-direction: column; /* 세로 배치 유지 */
         height: auto;
-        aspect-ratio: 16 / 9;
-        /* 비율 유지 */
-        border-radius: 8px;
+        min-height: auto;
+        width: 95%;
     }
+    
+    .mapSection {
+        width: 100%;
+        height: 400px !important; /* !important로 높이 강제 적용 */
+        min-height: 400px !important;
+        flex: none; /* flex 속성 제거하여 높이 고정 */
+        margin-bottom: 20px;
+    }
+    
+    .modernMap {
+        width: 100% !important;
+        height: 100% !important;
+        position: relative !important;
+        z-index: 1;
+    }
+    
+    .infoPanel {
+        width: 100%;
+        flex-direction: column;
+        max-width: none;
+        height: auto;
+        flex: none; /* flex 속성 제거 */
+    }
+    
+    .statsCard, .videoCard {
+        width: 100%;
+        height: auto;
+        min-height: 250px;
+        margin-bottom: 20px;
+    }
+    
+    .videoWrapper {
+        min-height: 250px;
+    }
+    
+    .statsGrid {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        max-height: 250px;
+        padding: 10px;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 600px) {
+    .modernContainer {
+        gap: 10px;
+        width: 95%;
+    }
+    
+    .mapSection {
+        height: 350px !important; /* 높이 조정 */
+        min-height: 350px !important;
+    }
+    
+    .statsCard, .videoCard {
+        width: 100%;
+        height: auto;
+        min-height: unset;
+    }
+    
+    .statsCard {
+        height: auto;
+        min-height: 300px;
+    }
+    
+    .videoCard {
+        height: 300px;
+    }
+    
+    .videoWrapper {
+        height: 220px;
+        min-height: unset;
+    }
+    
+    .modernButton {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .cardHeader {
+        padding: 10px 15px;
+    }
+    
+    .cardTitle {
+        font-size: 16px;
+    }
+    
+    .statsGrid {
+        padding: 8px;
+        max-height: none;
+    }
+    
+    .statItem {
+        padding: 8px;
+    }
+    
+    /* 지도가 모바일에서 제대로 표시되도록 보장 */
+    .modernMap {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+/* 애니메이션 및 트랜지션 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.statsCard, .videoCard {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.statItem {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.statItem:hover {
+    transform: translateY(-2px);
+    background-color: #e9e9e9;
 }
